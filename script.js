@@ -34,7 +34,8 @@ var bars = null;
 var barWidth = null;
 var sizeControl = null;
 var i = null;
-var excludeRatio = 20;
+//Used to remove some "dead bards"
+var excludeRatio = 33;
 
 $(document).ready(function() {
     init();
