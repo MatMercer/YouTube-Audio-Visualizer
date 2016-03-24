@@ -34,6 +34,7 @@ var bars = null;
 var barWidth = null;
 var sizeControl = null;
 var i = null;
+var excludeRatio = 20;
 
 $(document).ready(function() {
     init();
@@ -89,7 +90,7 @@ function init() {
             g = new PIXI.Graphics();
         }
 
-        barWidth = (100 / (analyser.frequencyBinCount)) * (xCanvasSize/100);
+        barWidth = (100 / (dataArray.length - excludeRatio)) * (xCanvasSize/100);
 
         debug("Init successfull!", "INFO");
     } catch (e) {
@@ -164,7 +165,7 @@ function animate() {
     g.clear();
     g.beginFill(0x5CE6FF, 1);
 
-    for(i = 0; i < dataArray.length; i++) {
+    for(i = 0; i < dataArray.length - excludeRatio; i++) {
         sizeControl = dataArray[i].map(0, 255, 0, yCanvasSize);
         g.drawRect(barWidth * i, yCanvasSize - sizeControl, barWidth, sizeControl);
     }
