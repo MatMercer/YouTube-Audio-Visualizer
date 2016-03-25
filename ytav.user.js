@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Adio Visualizer For Youtube
+// @name         Audio Visualizer For Youtube
 // @namespace    http://tampermonkey.net/
 // @version      0.6 BETA
 // @description  A simple audio visualizer for Youtube.
