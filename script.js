@@ -20,8 +20,11 @@
 //Do debug
 var doDebug = true;
 
-//Used to remove some "dead bards"
+//Used to remove some "dead bars"
 var excludeRatio = 33;
+
+//Version
+var version = "0.5 BETA";
 
 /**********************
     VISUALIZER VARS
@@ -45,6 +48,9 @@ var sizeControl = null;
 var i = null;
 var playerAPIDiv = null;
 var widthConstant = null;
+var smoothInput = null;
+var smoothPelmt = null;
+var smoothCountText = null;
 
 
 /****************
@@ -139,15 +145,68 @@ function setupView() {
             renderer = PIXI.autoDetectRenderer(playerAPIDiv.width(), playerAPIDiv.height());
 
             //Setup the ytav div
-            $("#player").prepend($("<div>", {id: "ytav"}));
+            $("#player").prepend($("<div>", {
+                id: "ytav"
+            }));
 
             //Add the view (canvas) of the renderer
             $("#ytav").prepend(renderer.view);
+
+            //Setup ytav-controls
+            $("#ytav").append($("<div>", {
+                id: "ytav-controls"
+            }).css({
+                float: "right",
+                width: ($("#ytav").width() - renderer.width) * 0.9 + "px",
+                margin: "0px"
+            }));
+
+            $("#ytav-controls").append($("<div>", {
+                id: "ytav-title"
+            }).css({
+                width: "70%",
+                margin: "0 0 5% 0"
+            }));
+
+            $("#ytav-title").append($("<h1>").text("Youtube Audio Visualizer").css("color", "black"));
+
+            $("#ytav-title").append($("<p>").text("v. " + version + " By MrAnyone").css({
+                color: "red",
+                float: "right",
+                fontSize: "0.8em"
+            }));
+
+            $("#ytav-controls").append($("<div>", {
+                id: "ytav-controls-input"
+            }));
+
+            smoothPelmt = $("<p>").css({
+                color: "black"
+            }).text("Smoothness: ");
+
+            smoothCountText = $("<b>", {
+                id: "smoothCount"
+            }).text("80");
+
+            smoothPelmt.append(smoothCountText);
+
+            $("#ytav-controls-input").append(smoothPelmt);
+
+            smoothInput = $("<input>", {
+                type: "range",
+                min: "0",
+                max: "99",
+                value: "80"
+            }).css({
+                display: "block"
+            });
+            $("#ytav-controls-input > p").append(smoothInput);
 
             //Generate PIXI graphics for bar draw
             g = new PIXI.Graphics();
         }
 
+        //A constant to calcule the bar width responsively
         widthConstant = (100 / (dataArray.length - excludeRatio));
 
         debug("Setup view successfull!", "INFO");
@@ -171,8 +230,15 @@ function animate() {
     g.beginFill(0x5CE6FF, 1);
 
     //Resize the view when necessary
-    if(playerAPIDiv.width() != renderer.width || playerAPIDiv.height() != renderer.height ) {
+    if (playerAPIDiv.width() != renderer.width || playerAPIDiv.height() != renderer.height) {
         renderer.resize(playerAPIDiv.width(), playerAPIDiv.height());
+        $("#ytav-controls").css("width", ($("#ytav").width() - renderer.width) * 0.9);
+    }
+
+    //Update the smoothness when necessary
+    if (smoothInput.val() / 100 != analyser.smoothingTimeConstant) {
+        analyser.smoothingTimeConstant = smoothInput.val() / 100;
+        smoothCountText.text(smoothInput.val());
     }
 
     //Generate the bars based on i dataArray audio size
