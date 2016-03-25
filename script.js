@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Adio Visualizer For Youtube
 // @namespace    http://tampermonkey.net/
-// @version      0.3 BETA
+// @version      0.5 BETA
 // @description  A simple audio visualizer for Youtube.
 // @author       MrAnyone
 // @match        https://www.youtube.com/watch?v=*
@@ -103,6 +103,7 @@ function init() {
     }
 }
 
+//Try to find the video DOM with given ID and create an audio source
 function setElementSource(id) {
     //Try to find the video
     $video = $(id);
@@ -121,6 +122,7 @@ function setElementSource(id) {
     }
 }
 
+//Setup the visualizer
 function setupView() {
     try {
         //Generate "PIXI stuff"
@@ -146,6 +148,7 @@ function setupView() {
     }
 }
 
+//The animate loop
 function animate() {
     //Animate loop
     requestAnimationFrame(animate);
