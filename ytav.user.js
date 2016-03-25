@@ -5,7 +5,6 @@
 // @description  A simple audio visualizer for Youtube.
 // @author       MrAnyone
 // @match        https://www.youtube.com/watch?v=*
-// @include      https://www.youtube.com/embed/*
 // @require      http://code.jquery.com/jquery-latest.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/pixi.js/3.0.10/pixi.min.js
 // @grant        Thank you very much for the inspiration! https://www.youtube.com/watch?v=okMfwg15lz0
