@@ -43,6 +43,8 @@ var g = null;
 var barWidth = null;
 var sizeControl = null;
 var i = null;
+var playerAPIDiv = null;
+var widthConstant = null;
 
 
 /****************
@@ -125,22 +127,28 @@ function setElementSource(id) {
 //Setup the visualizer
 function setupView() {
     try {
+        //A div to get the video size
+        playerAPIDiv = $("#player-api");
+
         //Generate "PIXI stuff"
         if (!(container || renderer || g)) {
             //The container
             container = new PIXI.Container(0x66FF99);
 
             //The renderer
-            renderer = PIXI.autoDetectRenderer($("#player-api").width(), $("#player-api").height());
+            renderer = PIXI.autoDetectRenderer(playerAPIDiv.width(), playerAPIDiv.height());
+
+            //Setup the ytav div
+            $("#player").prepend($("<div>", {id: "ytav"}));
 
             //Add the view (canvas) of the renderer
-            $("#player-mole-container").prepend(renderer.view);
+            $("#ytav").prepend(renderer.view);
 
             //Generate PIXI graphics for bar draw
             g = new PIXI.Graphics();
         }
-        //The barWidth based on a percent of the view based on the dataArray
-        barWidth = (100 / (dataArray.length - excludeRatio)) * (renderer.width / 100);
+
+        widthConstant = (100 / (dataArray.length - excludeRatio));
 
         debug("Setup view successfull!", "INFO");
     } catch (e) {
@@ -162,8 +170,16 @@ function animate() {
     //Starts drawing with a color & oppacity
     g.beginFill(0x5CE6FF, 1);
 
+    //Resize the view when necessary
+    if(playerAPIDiv.width() != renderer.width || playerAPIDiv.height() != renderer.height ) {
+        renderer.resize(playerAPIDiv.width(), playerAPIDiv.height());
+    }
+
     //Generate the bars based on i dataArray audio size
     for (i = 0; i < dataArray.length - excludeRatio; i++) {
+        //The barWidth based on a percent of the view based on the dataArray
+        barWidth = widthConstant * (renderer.width / 100);
+
         sizeControl = dataArray[i].map(0, 255, 0, renderer.height);
         g.drawRect(barWidth * i, renderer.height - sizeControl, barWidth, sizeControl);
     }
