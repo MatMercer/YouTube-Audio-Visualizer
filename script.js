@@ -86,6 +86,7 @@ function init() {
             analyser.smoothingTimeConstant = 0.8;
         }
 
+        //Generate the dataArray
         if (!(dataArray)) {
             dataArray = new Uint8Array(analyser.fftSize / 2);
         }
@@ -103,7 +104,9 @@ function init() {
 }
 
 function setElementSource(id) {
+    //Try to find the video
     $video = $(id);
+
     if ($video) {
         //Create audio element
         source = audioCtx.createMediaElementSource($video[0]);
@@ -120,13 +123,21 @@ function setElementSource(id) {
 
 function setupView() {
     try {
+        //Generate "PIXI stuff"
         if (!(container || renderer || g)) {
+            //The container
             container = new PIXI.Container(0x66FF99);
+
+            //The renderer
             renderer = PIXI.autoDetectRenderer($("#player-api").width(), $("#player-api").height());
+
+            //Add the view (canvas) of the renderer
             $("#player-mole-container").prepend(renderer.view);
+
+            //Generate PIXI graphics for bar draw
             g = new PIXI.Graphics();
         }
-
+        //The barWidth based on a percent of the view based on the dataArray
         barWidth = (100 / (dataArray.length - excludeRatio)) * (renderer.width / 100);
 
         debug("Setup view successfull!", "INFO");
@@ -136,16 +147,25 @@ function setupView() {
 }
 
 function animate() {
+    //Animate loop
     requestAnimationFrame(animate);
+
+    //Get the audio data
     passByteFrequencyData(dataArray);
+
+    //Removes the "older bars" from graphics
     g.clear();
+
+    //Starts drawing with a color & oppacity
     g.beginFill(0x5CE6FF, 1);
 
+    //Generate the bars based on i dataArray audio size
     for (i = 0; i < dataArray.length - excludeRatio; i++) {
         sizeControl = dataArray[i].map(0, 255, 0, renderer.height);
         g.drawRect(barWidth * i, renderer.height - sizeControl, barWidth, sizeControl);
     }
 
+    //Finally, add the generated stuff to container
     container.addChild(g);
 
     //Render the Container
@@ -155,6 +175,8 @@ function animate() {
 /************
     UTILS
 ************/
+
+//A debug function
 function debug(msg, type) {
     if (doDebug) {
         switch (type) {
@@ -174,6 +196,7 @@ function debug(msg, type) {
     }
 }
 
+//Get the data from the running analyser
 function passByteFrequencyData(array) {
     try {
         analyser.getByteFrequencyData(array);
