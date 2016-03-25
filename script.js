@@ -40,6 +40,7 @@ var excludeRatio = 33;
 $(document).ready(function() {
     init();
     setElementSource();
+    setupView();
     requestAnimationFrame(animate);
     //setupView();
 
@@ -70,7 +71,7 @@ function init() {
         if (!(analyser)) {
             analyser = audioCtx.createAnalyser();
             analyser.fftSize = 256;
-            analyser.minDecibels = -80;
+            analyser.minDecibels = -130;
             analyser.maxDecibels = 0;
             analyser.smoothingTimeConstant = 0.8;
         }
@@ -83,15 +84,6 @@ function init() {
         Number.prototype.map = function(in_min, in_max, out_min, out_max) {
             return (this - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
         };
-
-        if(!(container || renderer || g)) {
-            container = new PIXI.Container(0x66FF99);
-            renderer = PIXI.autoDetectRenderer(xCanvasSize, yCanvasSize);
-            $("#player-mole-container").prepend(renderer.view);
-            g = new PIXI.Graphics();
-        }
-
-        barWidth = (100 / (dataArray.length - excludeRatio)) * (xCanvasSize/100);
 
         debug("Init successfull!", "INFO");
     } catch (e) {
@@ -116,29 +108,16 @@ function setElementSource() {
 
 function setupView() {
     try {
-        if (!($viewDiv)) {
-            $viewDiv = $("<div>", {
-                id: "ytmv",
-                height: $video.height(),
-                width: $video.width()
-            });
-            $("#player-mole-container").prepend($viewDiv);
-
-            barWidth = 100 / (analyser.frequencyBinCount);
-
-            for (var i = 0; i < analyser.frequencyBinCount; i++) {
-                $("<div/>").css({
-                    "position": "absolute",
-                    "left": i * barWidth + "%",
-                    "bottom": 0,
-                    "width": (barWidth) + "%",
-                    "float": "left"
-                }).appendTo($viewDiv);
-            }
-            bars = $("#ytmv > div");
-
-            debug("Setup view successfull!", "INFO");
+        if(!(container || renderer || g)) {
+            container = new PIXI.Container(0x66FF99);
+            renderer = PIXI.autoDetectRenderer($video.width(), $video.height());
+            $("#player-mole-container").prepend(renderer.view);
+            g = new PIXI.Graphics();
         }
+
+        barWidth = (100 / (dataArray.length - excludeRatio)) * (renderer.width/100);
+
+        debug("Setup view successfull!", "INFO");
     } catch (e) {
         debug("Failed to setup the view!\n" + e, "ERROR");
     }
