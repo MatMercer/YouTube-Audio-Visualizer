@@ -13,8 +13,19 @@
 /* jshint -W097 */
 'use strict';
 
+/****************
+    SETUP VARS
+****************/
+
 //Do debug
 var doDebug = true;
+
+//Used to remove some "dead bards"
+var excludeRatio = 33;
+
+/**********************
+    VISUALIZER VARS
+**********************/
 
 //Audio handler variables
 var audioCtx = null;
@@ -24,35 +35,31 @@ var source = null;
 var $video = null;
 
 //Pixi vars
-var container = renderer = g = null;
-var xCanvasSize = 500;
-var yCanvasSize = 500;
+var container = null;
+var renderer = null;
+var g = null;
 
 //Visualization variables
-var $viewDiv = null;
-var bars = null;
 var barWidth = null;
 var sizeControl = null;
 var i = null;
-//Used to remove some "dead bards"
-var excludeRatio = 33;
+
+
+/****************
+    FUNCTIONS
+****************/
 
 $(document).ready(function() {
     init();
-    setElementSource();
+    setElementSource("video");
     setupView();
     requestAnimationFrame(animate);
-    //setupView();
-
-    //setInterval(function() {
-    //    passByteFrequencyData(dataArray);
-    //    updateView();
-    //}, 23);
 });
 
 //Init function
 function init() {
     try {
+
         //Get audio apis from different browsers
         if (!(navigator.getUserMedia)) {
             navigator.getUserMedia = (navigator.getUserMedia ||
@@ -60,18 +67,21 @@ function init() {
                 navigator.mozGetUserMedia ||
                 navigator.msGetUserMedia);
         }
+
         if (!(window.AudioContext)) {
             window.AudioContext = window.AudioContext || window.webkitAudioContext;
         }
+
         //Create the audio context
         if (!(audioCtx)) {
             audioCtx = new AudioContext();
         }
+
         //Setup the analyser node
         if (!(analyser)) {
             analyser = audioCtx.createAnalyser();
             analyser.fftSize = 256;
-            analyser.minDecibels = -130;
+            analyser.minDecibels = -80;
             analyser.maxDecibels = 0;
             analyser.smoothingTimeConstant = 0.8;
         }
@@ -92,14 +102,16 @@ function init() {
     }
 }
 
-function setElementSource() {
-    $video = $('video');
+function setElementSource(id) {
+    $video = $(id);
     if ($video) {
         //Create audio element
         source = audioCtx.createMediaElementSource($video[0]);
+
         //Route source to analyser & speakers
         source.connect(analyser);
         source.connect(audioCtx.destination);
+
         debug("setElementSource successfull!", "INFO");
     } else {
         debug("The video element was not found!", "WARNING");
@@ -108,35 +120,19 @@ function setElementSource() {
 
 function setupView() {
     try {
-        if(!(container || renderer || g)) {
+        if (!(container || renderer || g)) {
             container = new PIXI.Container(0x66FF99);
-            renderer = PIXI.autoDetectRenderer($video.width(), $video.height());
+            renderer = PIXI.autoDetectRenderer($("#player-api").width(), $("#player-api").height());
             $("#player-mole-container").prepend(renderer.view);
             g = new PIXI.Graphics();
         }
 
-        barWidth = (100 / (dataArray.length - excludeRatio)) * (renderer.width/100);
+        barWidth = (100 / (dataArray.length - excludeRatio)) * (renderer.width / 100);
 
         debug("Setup view successfull!", "INFO");
     } catch (e) {
         debug("Failed to setup the view!\n" + e, "ERROR");
     }
-}
-
-function updateView() {
-    //Update visualization size
-    $viewDiv.css({
-        "width": $video.width() + "px",
-        "height": $video.height() + "px",
-    });
-
-    //Update each bar using frequency infromatio
-    bars.each(function(index, bar) {
-        $(bar).css({
-            "height": dataArray[index].map(0, 255, 0, $viewDiv.height()) + "px",
-            "background": "rgb(" + (255 - dataArray[index]) + ", " + ( 145 - dataArray[index]) + "," + ( 70 - dataArray[index]) + " )"
-        });
-    });
 }
 
 function animate() {
@@ -145,14 +141,14 @@ function animate() {
     g.clear();
     g.beginFill(0x5CE6FF, 1);
 
-    for(i = 0; i < dataArray.length - excludeRatio; i++) {
-        sizeControl = dataArray[i].map(0, 255, 0, yCanvasSize);
-        g.drawRect(barWidth * i, yCanvasSize - sizeControl, barWidth, sizeControl);
+    for (i = 0; i < dataArray.length - excludeRatio; i++) {
+        sizeControl = dataArray[i].map(0, 255, 0, renderer.height);
+        g.drawRect(barWidth * i, renderer.height - sizeControl, barWidth, sizeControl);
     }
 
     container.addChild(g);
 
-    //render the Container
+    //Render the Container
     renderer.render(container);
 }
 
@@ -185,11 +181,3 @@ function passByteFrequencyData(array) {
         debug("Error passing the ByteFrequencyData!", "ERROR");
     }
 }
-
-//Selectors
-
-//hide everything unless ytmv
-//$("#page > #player > #player-mole-container > *:not(#ytmv)").css({display: "none"});
-
-//hide comments etc
-//$("#content > *").css({display: "none"})
