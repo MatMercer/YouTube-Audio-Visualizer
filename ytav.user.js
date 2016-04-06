@@ -25,6 +25,9 @@ var excludeRatio = 33;
 //Version
 var version = "0.7 BETA";
 
+//FFT size, affects how many bars, too higher values are heavy
+var FFTSize = 512;
+
 /**********************
     VISUALIZER VARS
 **********************/
@@ -53,6 +56,7 @@ var smoothPelmt = null;
 var smoothCountText = null;
 var fullScreen = false;
 var fullScreenBtn = null;
+var screenHeight = 0;
 
 
 /****************
@@ -92,7 +96,7 @@ function init() {
         //Setup the analyser node
         if (!(analyser)) {
             analyser = audioCtx.createAnalyser();
-            analyser.fftSize = 256;
+            analyser.fftSize = FFTSize;
             analyser.minDecibels = -80;
             analyser.maxDecibels = 0;
             analyser.smoothingTimeConstant = 0.8;
@@ -264,6 +268,9 @@ function domLoop() {
     //Get the fullscreen var
     fullScreen = fullScreenBtn[0].full;
 
+    //Update height var
+    screenHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
     //Resize the view when necessary
     if (playerAPIDiv.width() != renderer.width && !fullScreen || playerAPIDiv.height() != renderer.height && !fullScreen) {
         renderer.resize(playerAPIDiv.width(), playerAPIDiv.height());
@@ -284,16 +291,16 @@ function domLoop() {
         });
 
         debug("Resized canvas in normal mode!", "INFO");
-    } else if (fullScreen && $("canvas").width() != window.width) {
+    } else if (fullScreen && $("canvas").height() != screenHeight) {
         $("canvas").css({
             position: "fixed",
             top: 0,
             left: 0,
             width: "100vw",
-            height: "75vw",
+            height: screenHeight + "px",
             zIndex: 777
         });
-        renderer.resize(win.width(), win.height());
+        renderer.resize(win.width(), screenHeight);
 
         fullScreenBtn.css({
             position: "fixed",
