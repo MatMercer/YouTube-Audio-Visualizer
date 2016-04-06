@@ -290,7 +290,7 @@ function domLoop() {
             top: 0,
             left: 0,
             width: "100vw",
-            height: "95vw",
+            height: "75vw",
             zIndex: 777
         });
         renderer.resize(win.width(), win.height());
