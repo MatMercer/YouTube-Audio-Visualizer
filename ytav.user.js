@@ -26,7 +26,7 @@ var excludeRatio = 33;
 var version = "0.7 BETA";
 
 //FFT size, affects how many bars, too higher values are heavy
-var FFTSize = 512;
+var FFTSize = 256;
 
 /**********************
     VISUALIZER VARS
@@ -57,6 +57,8 @@ var smoothCountText = null;
 var fullScreen = false;
 var fullScreenBtn = null;
 var screenHeight = 0;
+var colorPicker = null;
+var barsColor = null;
 
 
 /****************
@@ -193,7 +195,7 @@ function setupView() {
             }).text("Smoothness: ");
 
             smoothCountText = $("<b>", {
-                id: "smoothCount"
+                id: "smooth-count"
             }).text("80");
 
             smoothPelmt.append(smoothCountText);
@@ -202,13 +204,28 @@ function setupView() {
 
             smoothInput = $("<input>", {
                 type: "range",
+                id: "ytav-input-smooth",
                 min: "0",
                 max: "99",
                 value: "80"
             }).css({
                 display: "block"
             });
-            $("#ytav-controls-input > p").append(smoothInput);
+            smoothPelmt.append(smoothInput);
+
+            colorPelmt = $("<p>").css({
+                color: "black"
+            }).text("BarColor: ");
+
+            colorPicker = $("<input>", {
+                id: "ytav-input-color",
+                type: "color",
+                value: "#FC3030"
+            });
+
+            colorPelmt.append(colorPicker);
+
+            $("#ytav-controls-input").append(colorPelmt);
 
             fullScreenBtn = $("<input>", {
                 id: "ytav-full-button",
@@ -245,7 +262,7 @@ function animate() {
     g.clear();
 
     //Starts drawing with a color & oppacity
-    g.beginFill(0x5CE6FF, 1);
+    g.beginFill(barsColor, 1);
 
     //Generate the bars based on i dataArray audio size
     for (i = 0; i < dataArray.length - excludeRatio; i++) {
@@ -315,7 +332,8 @@ function domLoop() {
         smoothCountText.text(smoothInput.val());
     }
 
-
+    //Get the input color
+    getInputColor(colorPicker[0].value);
 }
 
 /************
@@ -349,4 +367,9 @@ function passByteFrequencyData(array) {
     } catch (e) {
         debug("Error passing the ByteFrequencyData!", "ERROR");
     }
+}
+
+//Get the input color removing the "#"
+function getInputColor(hex) {
+    barsColor = parseInt(hex.substring(1), 16);
 }
