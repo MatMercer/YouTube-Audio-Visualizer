@@ -42,6 +42,7 @@ var renderer = null;
 var g = null;
 
 //Visualization variables
+var win = $(window);
 var barWidth = null;
 var sizeControl = null;
 var i = null;
@@ -50,6 +51,8 @@ var widthConstant = null;
 var smoothInput = null;
 var smoothPelmt = null;
 var smoothCountText = null;
+var fullScreen = false;
+var fullScreenBtn = null;
 
 
 /****************
@@ -61,6 +64,8 @@ $(document).ready(function() {
     setElementSource("video");
     setupView();
     requestAnimationFrame(animate);
+    domLoopName = domLoop;
+    setInterval("domLoopName()", 500);
 });
 
 //Init function
@@ -201,6 +206,16 @@ function setupView() {
             });
             $("#ytav-controls-input > p").append(smoothInput);
 
+            fullScreenBtn = $("<input>", {
+                id: "ytav-full-button",
+                type: "button",
+                value: "FullScreen",
+                onload: "this.full = false",
+                onclick: "this.full = this.full ? false:true;"
+            });
+
+            $("#ytav-controls-input").append(fullScreenBtn);
+
             //Generate PIXI graphics for bar draw
             g = new PIXI.Graphics();
         }
@@ -228,18 +243,6 @@ function animate() {
     //Starts drawing with a color & oppacity
     g.beginFill(0x5CE6FF, 1);
 
-    //Resize the view when necessary
-    if (playerAPIDiv.width() != renderer.width || playerAPIDiv.height() != renderer.height) {
-        renderer.resize(playerAPIDiv.width(), playerAPIDiv.height());
-        $("#ytav-controls").css("width", ($("#ytav").width() - renderer.width) * 0.9);
-    }
-
-    //Update the smoothness when necessary
-    if (smoothInput.val() / 100 != analyser.smoothingTimeConstant) {
-        analyser.smoothingTimeConstant = smoothInput.val() / 100;
-        smoothCountText.text(smoothInput.val());
-    }
-
     //Generate the bars based on i dataArray audio size
     for (i = 0; i < dataArray.length - excludeRatio; i++) {
         //The barWidth based on a percent of the view based on the dataArray
@@ -254,6 +257,59 @@ function animate() {
 
     //Render the Container
     renderer.render(container);
+}
+
+//DOM element loop
+function domLoop() {
+    //Get the fullscreen var
+    fullScreen = fullScreenBtn[0].full;
+    console.log(fullScreen);
+
+    //Resize the view when necessary
+    if (playerAPIDiv.width() != renderer.width && !fullScreen || playerAPIDiv.height() != renderer.height && !fullScreen) {
+        renderer.resize(playerAPIDiv.width(), playerAPIDiv.height());
+        $("#ytav-controls").css("width", ($("#ytav").width() - renderer.width) * 0.9);
+
+        $("canvas").css({
+            position: "static",
+            top: 0,
+            left: 0,
+            width: playerAPIDiv.width(),
+            height: playerAPIDiv.height(),
+            zIndex: "initial"
+        });
+
+        fullScreenBtn.css({
+            position: "static",
+            zIndex: "initial"
+        });
+
+        debug("Resized canvas in normal mode!", "INFO");
+    } else if (fullScreen && $("canvas").width() != window.width) {
+        $("canvas").css({
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "95vw",
+            zIndex: 777
+        });
+        renderer.resize(win.width(), win.height());
+
+        fullScreenBtn.css({
+            position: "fixed",
+            zIndex: 778
+        });
+        debug("Resized canvas in FullScreen mode!", "INFO");
+    }
+
+    //Update the smoothness when necessary
+    if (smoothInput.val() / 100 != analyser.smoothingTimeConstant) {
+        analyser.smoothingTimeConstant = smoothInput.val() / 100;
+        smoothCountText.text(smoothInput.val());
+    }
+
+
 }
 
 /************
