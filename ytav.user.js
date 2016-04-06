@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Audio Visualizer For Youtube
 // @namespace    http://tampermonkey.net/
-// @version      0.7 BETA
+// @version      0.8 BETA
 // @description  A simple audio visualizer for Youtube.
 // @author       MrAnyone
 // @match        https://www.youtube.com/watch?v=*
@@ -23,7 +23,7 @@ var doDebug = true;
 var excludeRatio = 33;
 
 //Version
-var version = "0.7 BETA";
+var version = "0.8 BETA";
 
 //FFT size, affects how many bars, too higher values are heavy
 var FFTSize = 256;
