@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Audio Visualizer For Youtube
 // @namespace    http://tampermonkey.net/
-// @version      0.6 BETA
+// @version      0.7 BETA
 // @description  A simple audio visualizer for Youtube.
 // @author       MrAnyone
 // @match        https://www.youtube.com/watch?v=*
@@ -23,7 +23,7 @@ var doDebug = true;
 var excludeRatio = 33;
 
 //Version
-var version = "0.6 BETA";
+var version = "0.7 BETA";
 
 /**********************
     VISUALIZER VARS
@@ -263,7 +263,6 @@ function animate() {
 function domLoop() {
     //Get the fullscreen var
     fullScreen = fullScreenBtn[0].full;
-    console.log(fullScreen);
 
     //Resize the view when necessary
     if (playerAPIDiv.width() != renderer.width && !fullScreen || playerAPIDiv.height() != renderer.height && !fullScreen) {
