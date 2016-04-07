@@ -52,7 +52,6 @@ var i = null;
 var playerAPIDiv = null;
 var widthConstant = null;
 var smoothInput = null;
-var smoothPelmt = null;
 var smoothCountText = null;
 var fullScreen = false;
 var fullScreenBtn = null;
@@ -321,6 +320,8 @@ function domLoop() {
 
         fullScreenBtn.css({
             position: "fixed",
+            bottom: 0,
+            right: 0,
             zIndex: 778
         });
         debug("Resized canvas in FullScreen mode!", "INFO");
