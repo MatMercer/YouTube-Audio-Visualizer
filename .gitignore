@@ -8,3 +8,6 @@ jquery.js
 
 //vim swp files
 *.swp
+
+//extension files
+*.zip
