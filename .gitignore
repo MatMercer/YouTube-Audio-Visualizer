@@ -5,3 +5,6 @@
 //library files
 pixi.js
 jquery.js
+
+//vim swp files
+*.swp
