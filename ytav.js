@@ -79,7 +79,7 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
 
     inst.init = function() {
         //the renderer
-        inst.renderer = new PIXI.autoDetectRenderer(inst.width, inst.height);
+        inst.renderer = new PIXI.autoDetectRenderer(inst.width, inst.height, {antialias: true, transparent: true});
 
         //the scene
         inst.container = new PIXI.Container(0x66ff99);
