@@ -1,3 +1,7 @@
 //bynary files
 *.deb
 *.exe
+
+//library files
+pixi.js
+jquery.js
