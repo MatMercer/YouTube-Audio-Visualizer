@@ -1,0 +1,31 @@
+{
+    "manifest_version": 2,
+    "name": "Youtube Audio Visualizer",
+    "version": "1.1",
+    "description": "A HTML5 audio visualizer for YouTube. Contribute to it now! https://github.com/MrAnyone/YouTube-Audio-Visualizer",
+    "author": "MrAnyone",
+    "icons": {
+        "16": "ytav_icon_16.png",
+        "48": "ytav_icon_48.png",
+        "128": "ytav_icon_128.png"
+    },
+    "web_accessible_resources": ["pixi.js", "jquery.js", "ytav.js"],
+    "content_scripts": [
+        {
+            "runs_at": "document_end",
+            "matches": [
+                "https://www.youtube.com/watch?v=*",
+                "https://youtu.be/*"
+            ],
+            "js": ["jquery.js", "injector.js"]
+        }
+    ],
+    "browser_action": {
+        "default_title": "YTAV",
+        "default_icon": "ytav_icon_16.png"
+    },
+    "permissions": [
+        "https://www.youtube.com/watch?v=*",
+        "https://youtu.be/*"
+    ]
+}
