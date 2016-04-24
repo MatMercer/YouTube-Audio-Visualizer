@@ -5,9 +5,6 @@ function barsScene(barsColor, backgroundColor, backgroundOpacity) {
     //the instance
     var inst = this;
 
-    //is the scene animation paused
-    inst.paused = true;
-
     //the bars color
     inst.barsColor = barsColor || 0xfc3030;
 
@@ -23,42 +20,38 @@ function barsScene(barsColor, backgroundColor, backgroundOpacity) {
     inst.init = function() {
         //a constant to calculate the bar width responsively
         inst.widthConstant = (100 / (vis.freqDataArray.length - inst.excludeRatio));
-
-        inst.paused = false;
     };
 
     //renders the scene, using the container, graphics, renderer & freqDataArray
     inst.render = function(c, g, r, d) {
-        if (!inst.paused) {
-            //the animation
+        //the animation
 
-            //clears the graphics
-            g.clear();
+        //clears the graphics
+        g.clear();
 
-            if (inst.backgroundOpacity) {
-                //draw the background
-                g.beginFill(inst.backgroundColor, inst.backgroundOpacity);
-                g.drawRect(-10, -10, r.width + 10, r.height + 10);
+        if (inst.backgroundOpacity) {
+            //draw the background
+            g.beginFill(inst.backgroundColor, inst.backgroundOpacity);
+            g.drawRect(-10, -10, r.width + 10, r.height + 10);
 
-                //ends the fill for background
-                g.endFill();
-            }
-
-            //draw the bars
-            g.beginFill(inst.barsColor, 1);
-
-            //generate the bars based on i dataArray audio percentage
-            for (i = 0; i < d.length - inst.excludeRatio; i++) {
-                //the bar width based on the widthConstant
-                barWidth = inst.widthConstant * (r.width / 100);
-
-                //draw the rectangle
-                g.drawRect(barWidth * i, r.height - (r.height * d[i]), barWidth, r.height * d[i]);
-            }
-
-            //finally, add the generated stuff to the container (aka scene)
-            c.addChild(g);
+            //ends the fill for background
+            g.endFill();
         }
+
+        //draw the bars
+        g.beginFill(inst.barsColor, 1);
+
+        //generate the bars based on i dataArray audio percentage
+        for (i = 0; i < d.length - inst.excludeRatio; i++) {
+            //the bar width based on the widthConstant
+            barWidth = inst.widthConstant * (r.width / 100);
+
+            //draw the rectangle
+            g.drawRect(barWidth * i, r.height - (r.height * d[i]), barWidth, r.height * d[i]);
+        }
+
+        //finally, add the generated stuff to the container (aka scene)
+        c.addChild(g);
 
         //render the scene
         r.render(c);
@@ -69,9 +62,6 @@ function barsScene(barsColor, backgroundColor, backgroundOpacity) {
 function ocilloscopeScene(lineColor, lineWidth, backgroundColor, backgroundOpacity) {
     //the instance
     var inst = this;
-
-    //is the scene paused
-    inst.paused = true;
 
     //the line style
     inst.lineColor = lineColor || 0xfc3030;
@@ -92,41 +82,39 @@ function ocilloscopeScene(lineColor, lineWidth, backgroundColor, backgroundOpaci
 
     //renders the scene, using container, graphics, renderer & timeData
     inst.render = function(c, g, r, d) {
-        if (!inst.paused) {
-            //the animation
+        //the animation
 
-            //clears the graphics
-            g.clear();
+        //clears the graphics
+        g.clear();
 
-            if (inst.backgroundOpacity) {
-                //draw the background
-                g.beginFill(inst.backgroundColor, inst.backgroundOpacity);
-                g.drawRect(-10, -10, r.width + 10, r.height + 10);
+        if (inst.backgroundOpacity) {
+            //draw the background
+            g.beginFill(inst.backgroundColor, inst.backgroundOpacity);
+            g.drawRect(-10, -10, r.width + 10, r.height + 10);
 
-                //ends the fill for background
-                g.endFill();
-            }
-
-            //move the drawer to start point
-            g.moveTo(0, (r.height / 2) + (r.height * d[0] / 1.5));
-
-            //the line style
-            g.lineStyle(inst.lineWidth, inst.lineColor);
-
-            //start drawing with a color & oppacity
-            g.beginFill(inst.lineColor, 0);
-
-            for (i = 1; i < d.length; i++) {
-                //the line width based on the widthConstant
-                lineWidth = inst.widthConstant * (r.width / 100);
-
-                //draw the line, in the next loop, the drawer will be at the given coord
-                g.lineTo(lineWidth * i, (r.height / 2) + (r.height * d[i] / 1.5));
-            }
-
-            //finally, add the generated stuff to the container (aka scene)
-            c.addChild(g);
+            //ends the fill for background
+            g.endFill();
         }
+
+        //move the drawer to start point
+        g.moveTo(0, (r.height / 2) + (r.height * d[0] / 1.5));
+
+        //the line style
+        g.lineStyle(inst.lineWidth, inst.lineColor);
+
+        //start drawing with a color & oppacity
+        g.beginFill(inst.lineColor, 0);
+
+        for (i = 1; i < d.length; i++) {
+            //the line width based on the widthConstant
+            lineWidth = inst.widthConstant * (r.width / 100);
+
+            //draw the line, in the next loop, the drawer will be at the given coord
+            g.lineTo(lineWidth * i, (r.height / 2) + (r.height * d[i] / 1.5));
+        }
+
+        //finally, add the generated stuff to the container (aka scene)
+        c.addChild(g);
 
         //render the scene
         r.render(c);
@@ -166,6 +154,9 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
         maxDecibels: 0,
         smoothingTimeConstant: 0.75
     };
+
+    //is paused or not, private
+    var paused = false;
 
     inst.init = function() {
         //the renderer
@@ -221,13 +212,14 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
     }
 
     inst.render = function() {
-        //get the audio dada & clean it
-        inst.analyser.getFloatFrequencyData(inst.freqDataArray);
-        inst.cleanUpFreqDataArray();
+        if (!paused) {
+            //get the audio dada & clean it
+            inst.analyser.getFloatFrequencyData(inst.freqDataArray);
+            inst.cleanUpFreqDataArray();
 
-        //get the wave data
-        inst.analyser.getFloatTimeDomainData(inst.timeDataArray);
-
+            //get the wave data
+            inst.analyser.getFloatTimeDomainData(inst.timeDataArray);
+        }
         //renders the current scene
         switch (sceneTypes[sceneIndex]) {
             case "ocilloscope":
@@ -255,6 +247,11 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
     //go to the next scene
     inst.nextScene = function() {
         sceneIndex += sceneIndex == sceneTypes.length - 1 ? -sceneIndex : 1;
+    }
+
+    //Pause/Play the scene
+    inst.pp = function() {
+        paused = paused ? false : true;
     }
 }
 
