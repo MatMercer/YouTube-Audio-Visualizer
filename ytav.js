@@ -21,12 +21,12 @@ function barsScene(barsColor) {
         inst.paused = false;
     };
 
-    //renders the scene, using the container, graphics, renderer & dataArray
+    //renders the scene, using the container, graphics, renderer & freqDataArray
     inst.render = function(c, g, r, d) {
         if (!inst.paused) {
             //the animation
 
-            //removes the "old bars" from graphics
+            //clears the graphics
             g.clear();
 
             //start drawing with a color & oppacity;
@@ -51,6 +51,57 @@ function barsScene(barsColor) {
 
 }
 
+function ocilloscopeScene(lineColor) {
+    //the instance
+    var inst = this;
+
+    //is the scene paused
+    inst.paused = true;
+
+    //the line color
+    inst.lineColor = lineColor || 0xfc3030;
+
+    inst.init = function() {
+        //a constant to calculate the line x width responsively
+        inst.widthConstant = (100 / vis.timeDataArray.length);
+
+        inst.paused = false;
+    };
+
+    //renders the scene, using container, graphics, renderer & timeData
+    inst.render = function(c, g, r, d) {
+        if (!inst.paused) {
+            //the animation
+
+            //clears the graphics
+            g.clear();
+
+            //move the drawer to start point
+            g.moveTo(0, (r.height / 2) + (r.height * d[0] / 1.5));
+
+            //the line style
+            g.lineStyle(2, inst.lineColor);
+
+            //start drawing with a color & oppacity
+            g.beginFill(inst.lineColor, 0);
+
+            for (i = 1; i < d.length; i++) {
+                //the line width based on the widthConstant
+                lineWidth = inst.widthConstant * (r.width / 100);
+
+                //draw the line, in the next loop, the drawer will be at the given coord
+                g.lineTo(lineWidth * i, (r.height / 2) + (r.height * d[i] / 1.5));
+            }
+
+            //finally, add the generated stuff to the container (aka scene)
+            c.addChild(g);
+        }
+
+        //render the scene
+        r.render(c);
+    };
+}
+
 function audioVisualizer(width, height, containerSelector, sourceSelector, playerSelector, analyserData) {
     //the instance
     var inst = this;
@@ -58,7 +109,8 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
     //the type of scenes, using an index to control it
     //private
     var sceneTypes = [
-        "bars"
+        "bars",
+        "ocilloscope"
     ];
     //private
     var sceneIndex = 0;
@@ -132,18 +184,24 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
         //the instance of the scenes
         inst.bars = new barsScene();
         inst.bars.init();
+
+        inst.ocillo = new ocilloscopeScene();
+        inst.ocillo.init();
     }
 
     inst.render = function() {
         //get the audio dada & clean it
         inst.analyser.getFloatFrequencyData(inst.freqDataArray);
         inst.cleanUpFreqDataArray();
-        
+
         //get the wave data
         inst.analyser.getFloatTimeDomainData(inst.timeDataArray);
 
         //renders the current scene
         switch (sceneTypes[sceneIndex]) {
+            case "ocilloscope":
+                inst.ocillo.render(inst.container, inst.g, inst.renderer, inst.timeDataArray);
+                break;
             case "bars":
             default:
                 inst.bars.render(inst.container, inst.g, inst.renderer, inst.freqDataArray);
@@ -152,7 +210,7 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
         requestAnimationFrame(inst.render);
     }
 
-    //transform0 data to percentages
+    //transform freqData to percentages
     inst.cleanUpFreqDataArray = function() {
         for (i in inst.freqDataArray) {
             if (inst.freqDataArray[i] <= -100 || inst.freqDataArray[i] == -80) {
