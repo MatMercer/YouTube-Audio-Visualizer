@@ -51,15 +51,16 @@ function barsScene(barsColor) {
 
 }
 
-function ocilloscopeScene(lineColor) {
+function ocilloscopeScene(lineColor, lineWidth) {
     //the instance
     var inst = this;
 
     //is the scene paused
     inst.paused = true;
 
-    //the line color
+    //the line style
     inst.lineColor = lineColor || 0xfc3030;
+    inst.lineWidth = lineWidth || 2;
 
     inst.init = function() {
         //a constant to calculate the line x width responsively
@@ -80,7 +81,7 @@ function ocilloscopeScene(lineColor) {
             g.moveTo(0, (r.height / 2) + (r.height * d[0] / 1.5));
 
             //the line style
-            g.lineStyle(2, inst.lineColor);
+            g.lineStyle(inst.lineWidth, inst.lineColor);
 
             //start drawing with a color & oppacity
             g.beginFill(inst.lineColor, 0);
