@@ -168,8 +168,18 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
         //the scene
         inst.container = new PIXI.Container(0x66ff99);
 
+        //the view
+        inst.$view = $(inst.renderer.view);
+
+        //pauses the animation when the canvas is clicked
+        //but you can see color changes since the scenes
+        //are rendered the same way
+        inst.$view.click(function() {
+            vis.pp();
+        });
+
         //attach the renderer to the DOM element
-        inst.$container.prepend(inst.renderer.view);
+        inst.$container.prepend(inst.$view);
 
         //generate the PIXI graphics for draw
         inst.g = new PIXI.Graphics();
