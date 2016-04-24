@@ -16,8 +16,7 @@ function barsScene(barsColor) {
 
     inst.init = function() {
         //a constant to calculate the bar width responsively
-        inst.widthConstant = (100 / (vis.dataArray.length - inst.excludeRatio));
-
+        inst.widthConstant = (100 / (vis.freqDataArray.length - inst.excludeRatio));
 
         inst.paused = false;
     };
@@ -56,6 +55,14 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
     //the instance
     var inst = this;
 
+    //the type of scenes, using an index to control it
+    //private
+    var sceneTypes = [
+        "bars"
+    ];
+    //private
+    var sceneIndex = 0;
+
     //the video dom used to find the size
     inst.$player = $(playerSelector);
 
@@ -79,7 +86,10 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
 
     inst.init = function() {
         //the renderer
-        inst.renderer = new PIXI.autoDetectRenderer(inst.width, inst.height, {antialias: true, transparent: true});
+        inst.renderer = new PIXI.autoDetectRenderer(inst.width, inst.height, {
+            antialias: true,
+            transparent: true
+        });
 
         //the scene
         inst.container = new PIXI.Container(0x66ff99);
@@ -110,9 +120,14 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
         inst.source.connect(inst.analyser);
         inst.source.connect(inst.audioCtx.destination);
 
-        //initialize an array with the size of the buffer
-        inst.dataArray = new Float32Array(inst.analyser.frequencyBinCount);
-        inst.analyser.getFloatFrequencyData(inst.dataArray);
+        //initialize the freq data array with the size of the buffer
+        inst.freqDataArray = new Float32Array(inst.analyser.frequencyBinCount);
+        inst.analyser.getFloatFrequencyData(inst.freqDataArray);
+        inst.cleanUpFreqDataArray();
+
+        //initialize the time domain data array with the size of the buffer
+        inst.timeDataArray = new Float32Array(inst.analyser.frequencyBinCount);
+        inst.analyser.getFloatTimeDomainData(inst.timeDataArray);
 
         //the instance of the scenes
         inst.bars = new barsScene();
@@ -121,22 +136,36 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
 
     inst.render = function() {
         //get the audio dada & clean it
-        inst.analyser.getFloatFrequencyData(inst.dataArray);
-        inst.cleanUpDataArray();
+        inst.analyser.getFloatFrequencyData(inst.freqDataArray);
+        inst.cleanUpFreqDataArray();
+        
+        //get the wave data
+        inst.analyser.getFloatTimeDomainData(inst.timeDataArray);
 
-        inst.bars.render(inst.container, inst.g, inst.renderer, inst.dataArray);
+        //renders the current scene
+        switch (sceneTypes[sceneIndex]) {
+            case "bars":
+            default:
+                inst.bars.render(inst.container, inst.g, inst.renderer, inst.freqDataArray);
+        }
+
         requestAnimationFrame(inst.render);
     }
 
-    //return data as percentages
-    inst.cleanUpDataArray = function() {
-        for (i in inst.dataArray) {
-            if (inst.dataArray[i] <= -100 || inst.dataArray[i] == -80) {
-                inst.dataArray[i] = 0;
+    //transform0 data to percentages
+    inst.cleanUpFreqDataArray = function() {
+        for (i in inst.freqDataArray) {
+            if (inst.freqDataArray[i] <= -100 || inst.freqDataArray[i] == -80) {
+                inst.freqDataArray[i] = 0;
                 continue;
             }
-            inst.dataArray[i] = (inst.dataArray[i] + 100) / 100;
+            inst.freqDataArray[i] = (inst.freqDataArray[i] + 100) / 100;
         }
+    }
+
+    //go to the next scene
+    inst.nextScene = function() {
+        sceneIndex += sceneIndex == sceneTypes.length - 1 ? -sceneIndex : 1;
     }
 }
 
