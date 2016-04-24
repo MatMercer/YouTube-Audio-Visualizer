@@ -1,7 +1,7 @@
 //the visualization var, global
 var vis;
 
-function barsScene(barsColor) {
+function barsScene(barsColor, backgroundColor, backgroundOpacity) {
     //the instance
     var inst = this;
 
@@ -10,6 +10,12 @@ function barsScene(barsColor) {
 
     //the bars color
     inst.barsColor = barsColor || 0xfc3030;
+
+    //background color
+    inst.backgroundColor = backgroundColor || 0x000000;
+
+    //background opacity
+    inst.backgroundOpacity = backgroundOpacity || 0;
 
     //exclude some "dead bars"
     inst.excludeRatio = 33;
@@ -29,7 +35,16 @@ function barsScene(barsColor) {
             //clears the graphics
             g.clear();
 
-            //start drawing with a color & oppacity;
+            if (inst.backgroundOpacity) {
+                //draw the background
+                g.beginFill(inst.backgroundColor, inst.backgroundOpacity);
+                g.drawRect(-10, -10, r.width + 10, r.height + 10);
+
+                //ends the fill for background
+                g.endFill();
+            }
+
+            //draw the bars
             g.beginFill(inst.barsColor, 1);
 
             //generate the bars based on i dataArray audio percentage
@@ -51,7 +66,7 @@ function barsScene(barsColor) {
 
 }
 
-function ocilloscopeScene(lineColor, lineWidth) {
+function ocilloscopeScene(lineColor, lineWidth, backgroundColor, backgroundOpacity) {
     //the instance
     var inst = this;
 
@@ -61,6 +76,12 @@ function ocilloscopeScene(lineColor, lineWidth) {
     //the line style
     inst.lineColor = lineColor || 0xfc3030;
     inst.lineWidth = lineWidth || 2;
+
+    //background color
+    inst.backgroundColor = backgroundColor || 0x000000;
+
+    //background opacity
+    inst.backgroundOpacity = backgroundOpacity || 0;
 
     inst.init = function() {
         //a constant to calculate the line x width responsively
@@ -76,6 +97,15 @@ function ocilloscopeScene(lineColor, lineWidth) {
 
             //clears the graphics
             g.clear();
+
+            if (inst.backgroundOpacity) {
+                //draw the background
+                g.beginFill(inst.backgroundColor, inst.backgroundOpacity);
+                g.drawRect(-10, -10, r.width + 10, r.height + 10);
+
+                //ends the fill for background
+                g.endFill();
+            }
 
             //move the drawer to start point
             g.moveTo(0, (r.height / 2) + (r.height * d[0] / 1.5));
