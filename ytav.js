@@ -18,13 +18,14 @@ function barsScene(barsColor, backgroundColor, backgroundOpacity) {
     inst.excludeRatio = 33;
 
     inst.init = function() {
-        //a constant to calculate the bar width responsively
-        inst.widthConstant = (100 / (vis.freqDataArray.length - inst.excludeRatio));
     };
 
     //renders the scene, using the container, graphics, renderer & freqDataArray
     inst.render = function(c, g, r, d) {
         //the animation
+
+        //a constant to calculate the bar width responsively
+        inst.widthConstant = (100 / (vis.freqDataArray.length - inst.excludeRatio));
 
         //clears the graphics
         g.clear();
@@ -73,16 +74,12 @@ function ocilloscopeScene(lineColor, lineWidth, backgroundColor, backgroundOpaci
     //background opacity
     inst.backgroundOpacity = backgroundOpacity || 0;
 
-    inst.init = function() {
-        //a constant to calculate the line x width responsively
-        inst.widthConstant = (100 / vis.timeDataArray.length);
-
-        inst.paused = false;
-    };
-
     //renders the scene, using container, graphics, renderer & timeData
     inst.render = function(c, g, r, d) {
         //the animation
+
+        //a constant to calculate the line width responsively
+        inst.widthConstant = (100 / vis.freqDataArray.length);
 
         //clears the graphics
         g.clear();
@@ -215,10 +212,8 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
 
         //the instance of the scenes
         inst.bars = new barsScene();
-        inst.bars.init();
 
         inst.ocillo = new ocilloscopeScene();
-        inst.ocillo.init();
     }
 
     inst.render = function() {
@@ -230,6 +225,7 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
             //get the wave data
             inst.analyser.getFloatTimeDomainData(inst.timeDataArray);
         }
+
         //renders the current scene
         switch (sceneTypes[sceneIndex]) {
             case "ocilloscope":
