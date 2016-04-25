@@ -256,6 +256,13 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
     inst.pp = function() {
         paused = paused ? false : true;
     }
+
+    //set the fftSize
+    inst.setFFT = function(size) {
+        inst.analyser.fftSize = size;
+        inst.freqDataArray = new Float32Array(inst.analyser.frequencyBinCount);
+        inst.timeDataArray = new Float32Array(inst.analyser.frequencyBinCount);
+    }
 }
 
 $(document).ready(function() {
