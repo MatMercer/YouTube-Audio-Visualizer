@@ -17,9 +17,6 @@ function barsScene(barsColor, backgroundColor, backgroundOpacity) {
     //exclude some "dead bars"
     inst.excludeRatio = 33;
 
-    inst.init = function() {
-    };
-
     //renders the scene, using the container, graphics, renderer & freqDataArray
     inst.render = function(c, g, r, d) {
         //the animation
