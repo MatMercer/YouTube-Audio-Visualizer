@@ -53,7 +53,7 @@ function barsScene(barsColor, backgroundColor, backgroundOpacity) {
 
         //render the scene
         r.render(c);
-    }
+    };
 
 }
 
@@ -115,6 +115,108 @@ function ocilloscopeScene(lineColor, lineWidth, backgroundColor, backgroundOpaci
     };
 }
 
+function monsterYTAVScene(barsColor) {
+    //the instance
+    var inst = this;
+
+    //the bars area
+    inst.barArea = new PIXI.Point(0, 0);
+
+    //the bars position
+    inst.barPos = new PIXI.Point(0, 0);
+
+    //the bars between distance in px
+    inst.barDist = 2;
+
+    //the bars color
+    inst.barsColor = barsColor || 0xfc3030;
+
+    //the frequency index used to set the
+    //custom freqData
+    inst.low = new PIXI.Point(5, 40);
+    inst.mid = new PIXI.Point(50, 85);
+    inst.high = new PIXI.Point(1000, 1020);
+
+    //custom freqdata
+    inst.freqData = [];
+
+    //renders the scene using container, graphics, renderer, freqDataArray
+    inst.render = function(c, g, r, d) {
+        //set the custom freqData
+        //if the scene isn't paused
+        if (!vis.paused) {
+            inst.setData(d);
+        }
+
+        //set the bars area 80% of the view width and 40%
+        //from the view heigth
+        inst.barArea.set(r.width * 0.9, r.height * 0.4);
+
+        //used to make the bars centered
+        //a 20% up
+        inst.barPos.set((r.width - inst.barArea.x) / 2, ((r.height - inst.barArea.y) / 2) - r.height * 0.2);
+
+        //clears the graphics
+        g.clear();
+
+        //draw the bars
+        g.beginFill(inst.barsColor, 1);
+
+        //a width constant
+        inst.widthConstant = (100 / inst.freqData.length);
+
+        //the bar width, discouting the barDist
+        barWidth = inst.widthConstant * ((inst.barArea.x - (inst.barDist * inst.freqData.length)) / 100);
+
+        for (i in inst.freqData) {
+            g.drawRect(inst.barPos.x + (barWidth * i) + (inst.barDist * i), ((r.height / 2) + (r.height * 0.2)) - (inst.barArea.y * inst.freqData[i]), barWidth, (inst.barArea.y * inst.freqData[i]) + (inst.barArea.y / 100));
+        }
+
+        //add the graphics to container
+        c.addChild(g);
+
+        //render it
+        r.render(c);
+    };
+
+    //used to set the custom frequency data
+    inst.setData = function(d) {
+        //the low frequency data
+        for (i = inst.low.x, j = 0; i < inst.low.y; i++, j++) {
+            inst.freqData[j] = d[i];
+
+            //increases the "data difference"
+            inst.freqData[j] *= (d[i] / 0.35) * (d[i]);
+        }
+
+        //the medium frequency data
+        for (i = inst.mid.x, j; i < inst.mid.y; i++, j++) {
+            inst.freqData[j] = d[i];
+
+            //increses the "data difference"
+            inst.freqData[j] *= (d[i] / 0.29) * (d[i]);
+        }
+
+        //the high frequency data
+        for (i = inst.high.x, j; i < inst.high.y; i++, j++) {
+            inst.freqData[j] = d[i];
+
+            //increases the data
+            d[i] *= 1.4;
+        }
+
+        //used to remove "dead falls" on the bars
+        //make the frequency data more dynamic
+        for (i = 0, j = inst.freqData.length - 1; i < inst.freqData.length - 1, j > 1; i++, j--) {
+            inst.freqData[i] += 0.5 * inst.freqData[i + 1];
+            inst.freqData[j] += 0.5 * inst.freqData[j - 1];
+            inst.freqData[j] *= 0.5;
+        }
+
+    };
+
+}
+
 function audioVisualizer(width, height, containerSelector, sourceSelector, playerSelector, analyserData) {
     //the instance
     var inst = this;
@@ -123,10 +225,11 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
     //private
     var sceneTypes = [
         "bars",
-        "ocilloscope"
+        "ocilloscope",
+        "monster"
     ];
     //private
-    var sceneIndex = 0;
+    var sceneIndex = 2;
 
     //the video dom used to find the size
     inst.$player = $(playerSelector);
@@ -143,14 +246,14 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
 
     //the options for fft analysis
     inst.analyserData = analyserData || {
-        fftSize: 256,
+        fftSize: 8192,
         minDecibels: -50,
         maxDecibels: 0,
         smoothingTimeConstant: 0.75
     };
 
-    //is paused or not, private
-    var paused = false;
+    //is paused or not
+    inst.paused = false;
 
     inst.init = function() {
         //the renderer
@@ -210,10 +313,12 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
         inst.bars = new barsScene();
 
         inst.ocillo = new ocilloscopeScene();
-    }
+
+        inst.monster = new monsterYTAVScene();
+    };
 
     inst.render = function() {
-        if (!paused) {
+        if (!inst.paused) {
             //get the audio dada & clean it
             inst.analyser.getFloatFrequencyData(inst.freqDataArray);
             inst.cleanUpFreqDataArray();
@@ -224,16 +329,20 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
 
         //renders the current scene
         switch (sceneTypes[sceneIndex]) {
+            case "monster":
+                inst.monster.render(inst.container, inst.g, inst.renderer, inst.freqDataArray);
+                break;
             case "ocilloscope":
                 inst.ocillo.render(inst.container, inst.g, inst.renderer, inst.timeDataArray);
                 break;
             case "bars":
             default:
                 inst.bars.render(inst.container, inst.g, inst.renderer, inst.freqDataArray);
+                break;
         }
 
         requestAnimationFrame(inst.render);
-    }
+    };
 
     //transform freqData to percentages
     inst.cleanUpFreqDataArray = function() {
@@ -244,24 +353,24 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
             }
             inst.freqDataArray[i] = (inst.freqDataArray[i] + 100) / 100;
         }
-    }
+    };
 
     //go to the next scene
     inst.nextScene = function() {
         sceneIndex += sceneIndex == sceneTypes.length - 1 ? -sceneIndex : 1;
-    }
+    };
 
     //Pause/Play the scene
     inst.pp = function() {
-        paused = paused ? false : true;
-    }
+        inst.paused = inst.paused ? false : true;
+    };
 
     //set the fftSize
     inst.setFFT = function(size) {
         inst.analyser.fftSize = size;
         inst.freqDataArray = new Float32Array(inst.analyser.frequencyBinCount);
         inst.timeDataArray = new Float32Array(inst.analyser.frequencyBinCount);
-    }
+    };
 }
 
 $(document).ready(function() {
