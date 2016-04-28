@@ -5,6 +5,9 @@ function barsScene(barsColor, backgroundColor, backgroundOpacity) {
     //the instance
     var inst = this;
 
+    //the scene name
+    inst.name = "Bars";
+
     //the bars color
     inst.barsColor = barsColor || 0xfc3030;
 
@@ -60,6 +63,9 @@ function barsScene(barsColor, backgroundColor, backgroundOpacity) {
 function ocilloscopeScene(lineColor, lineWidth, backgroundColor, backgroundOpacity) {
     //the instance
     var inst = this;
+
+    //the scene name
+    inst.name = "Oscilloscope";
 
     //the line style
     inst.lineColor = lineColor || 0xfc3030;
@@ -119,6 +125,9 @@ function monsterYTAVScene(barsColor) {
     //the instance
     var inst = this;
 
+    //the scene name
+    inst.name = "MonsterYTAV";
+
     //the bars area
     inst.barArea = new PIXI.Point(0, 0);
 
@@ -126,7 +135,7 @@ function monsterYTAVScene(barsColor) {
     inst.barPos = new PIXI.Point(0, 0);
 
     //the bars between distance in px
-    inst.barDist = 2;
+    inst.barDist = 1;
 
     //the bars color
     inst.barsColor = barsColor || 0xfc3030;
@@ -246,11 +255,20 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
 
     //the options for fft analysis
     inst.analyserData = analyserData || {
-        fftSize: 8192,
+        fftSize: 256,
         minDecibels: -50,
         maxDecibels: 0,
-        smoothingTimeConstant: 0.75
+        smoothingTimeConstant: 0.8
     };
+
+    //monster visualizer custom fft, private
+    var monsterVisData = {
+        fftSize: 8192,
+        smoothingTimeConstant: 0.75
+    }
+
+    //the scenes instances
+    var scenes = [];
 
     //is paused or not
     inst.paused = false;
@@ -286,12 +304,8 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
         //create the audio context
         inst.audioCtx = new AudioContext();
 
-        //setup the analyser node
+        //add the analyser node
         inst.analyser = inst.audioCtx.createAnalyser();
-        inst.analyser.fftSize = inst.analyserData.fftSize;
-        inst.analyser.minDecibels = inst.analyserData.minDecibels;
-        inst.analyser.maxDecibels = inst.analyserData.maxDecibels;
-        inst.analyser.smoothingTimeConstant = inst.analyserData.smoothingTimeConstant;
 
         //create the audio media source
         inst.source = inst.audioCtx.createMediaElementSource(inst.$source[0]);
@@ -310,11 +324,18 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
         inst.analyser.getFloatTimeDomainData(inst.timeDataArray);
 
         //the instance of the scenes
-        inst.bars = new barsScene();
+        bars = new barsScene();
 
-        inst.ocillo = new ocilloscopeScene();
+        ocillo = new ocilloscopeScene();
 
-        inst.monster = new monsterYTAVScene();
+        monster = new monsterYTAVScene();
+
+        scenes.push(bars);
+        scenes.push(ocillo);
+        scenes.push(monster);
+
+        //update the analyser config
+        inst.updateAnalyserConfig();
     };
 
     inst.render = function() {
@@ -330,14 +351,14 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
         //renders the current scene
         switch (sceneTypes[sceneIndex]) {
             case "monster":
-                inst.monster.render(inst.container, inst.g, inst.renderer, inst.freqDataArray);
+                scenes[sceneIndex].render(inst.container, inst.g, inst.renderer, inst.freqDataArray);
                 break;
             case "ocilloscope":
-                inst.ocillo.render(inst.container, inst.g, inst.renderer, inst.timeDataArray);
+                scenes[sceneIndex].render(inst.container, inst.g, inst.renderer, inst.timeDataArray);
                 break;
             case "bars":
             default:
-                inst.bars.render(inst.container, inst.g, inst.renderer, inst.freqDataArray);
+                scenes[sceneIndex].render(inst.container, inst.g, inst.renderer, inst.freqDataArray);
                 break;
         }
 
@@ -358,6 +379,7 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
     //go to the next scene
     inst.nextScene = function() {
         sceneIndex += sceneIndex == sceneTypes.length - 1 ? -sceneIndex : 1;
+        inst.updateAnalyserConfig();
     };
 
     //Pause/Play the scene
@@ -371,6 +393,35 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
         inst.freqDataArray = new Float32Array(inst.analyser.frequencyBinCount);
         inst.timeDataArray = new Float32Array(inst.analyser.frequencyBinCount);
     };
+
+
+    //update the analyser config
+    inst.updateAnalyserConfig = function(config) {
+        if (scenes[sceneIndex].name == "MonsterYTAV")
+            config = monsterVisData;
+
+        if (!config) {
+            inst.setFFT(inst.analyserData.fftSize);
+            inst.analyser.minDecibels = inst.analyserData.minDecibels;
+            inst.analyser.maxDecibels = inst.analyserData.maxDecibels;
+            inst.analyser.smoothingTimeConstant = inst.analyserData.smoothingTimeConstant;
+        } else {
+            inst.setFFT(config.fftSize || inst.analyserData.fftSize);
+            inst.analyser.minDecibels = config.minDecibels || inst.analyserData.minDecibels;
+            inst.analyser.maxDecibels = config.maxDecibels || inst.analyserData.maxDecibels;
+            inst.analyser.smoothingTimeConstant = config.smoothingTimeConstant || inst.analyserData.smoothingTimeConstant;
+        }
+    };
+
+    inst.getSceneByName = function(name) {
+        for (i in scenes) {
+            if (scenes[i].name.toLowerCase() == name.toLowerCase()) {
+                return scenes[i];
+            }
+        }
+        return undefined;
+    }
+
 }
 
 $(document).ready(function() {
