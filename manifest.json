@@ -21,8 +21,9 @@
         }
     ],
     "browser_action": {
-        "default_title": "YTAV",
-        "default_icon": "ytav_icon_16.png"
+        "default_title": "YouTube Audio Visualizer",
+        "default_icon": "ytav_icon_16.png",
+        "default_popup": "popup.html"
     },
     "permissions": [
         "https://www.youtube.com/watch?v=*",
