@@ -1,3 +1,11 @@
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        window.postMessage({
+            type: "FROM_PAGE",
+            text: "Hello from the webpage!"
+        }, "*");
+    });
+
 //all the files SHOULD be added to web_accessible_resources in manifest file
 //add all the script files to the html element
 
@@ -24,5 +32,4 @@ function setupScripts() {
                 });
         });
 }
-
 setupScripts();

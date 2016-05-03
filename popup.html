@@ -3,10 +3,15 @@
 
 <head>
     <meta charset="UTF-8">
-    
+
     <script src="jquery.js"></script>
     <script src="popup.js"></script>
     <style>
+        body {
+            width: 20em;
+            max-height: 400px;
+            background: #F0F0F0;
+        }
         #logo {
             margin-left: 0;
             margin-right: auto;
@@ -20,9 +25,24 @@
         #logo-text > h3 {
             margin-top: 3.3em;
         }
-        body {
-            width: 20em;
-            max-height: 400px;
+        .button {
+            cursor: pointer;
+            border: 1px solid black;
+        }
+        .button:hover {
+            -webkit-transition: all 0.7s ease-out;
+            background: #FFCCCC;
+        }
+        .button.previous-visualizer {
+            text-align: center;
+            width: 5em;
+            float: left;
+        }
+        .button.next-visualizer {
+            text-align: center;
+            width: 5em;
+            margin-right: auto;
+            margin-left: auto;
         }
         .separator {
             width: 100%;
@@ -38,6 +58,9 @@
         <h3>YouTube Audio Visualizer</h3>
     </div>
     <hr class="separator">
+
+
+    <div id="next-visualizer-button" class="button next-visualizer">Next Visualizer</div>
 </body>
 
 </html>
