@@ -1,14 +1,5 @@
 //the visualization var, global
 var vis;
-
-window.addEventListener("message", function(event) {
-    // We only accept messages from ourselves
-    if (event.source != window)
-        return;
-    
-    vis.nextScene();
-}, false);
-
 function barsScene(barsColor, backgroundColor, backgroundOpacity) {
     //the instance
     var inst = this;

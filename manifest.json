@@ -9,7 +9,7 @@
         "48": "ytav_icon_48.png",
         "128": "ytav_icon_128.png"
     },
-    "web_accessible_resources": ["pixi.js", "jquery.js", "ytav.js"],
+    "web_accessible_resources": ["pixi.js", "jquery.js", "ytav.js", "ytav_listeners.js"],
     "content_scripts": [
         {
             "runs_at": "document_end",
@@ -17,7 +17,7 @@
                 "https://www.youtube.com/watch?v=*",
                 "https://youtu.be/*"
             ],
-            "js": ["jquery.js", "injector.js"]
+            "js": ["jquery.js", "injector.js", "injector_listeners.js"]
         }
     ],
     "browser_action": {
