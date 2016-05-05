@@ -381,6 +381,12 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
         inst.updateAnalyserConfig();
     };
 
+    //go to the previous scene
+    inst.previousScene = function() {
+        sceneIndex -= sceneIndex == 0 ? -(sceneTypes.length - 1): 1;
+        inst.updateAnalyserConfig();
+    };
+
     //Pause/Play the scene
     inst.pp = function() {
         inst.paused = inst.paused ? false : true;
