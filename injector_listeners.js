@@ -5,7 +5,7 @@ chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
         window.postMessage({
             action: request.action,
-            content: request.data
+            data: request.data
         }, "*");
 
         sendResponse("Message received...");  

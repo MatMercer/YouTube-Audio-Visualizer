@@ -1,5 +1,6 @@
 //receives a message and parse it to visualizer actions
 window.addEventListener("message", function(event) {
+    console.log(event);
     //we only accept messages from ourselves
     if (event.source != window)
         return;
@@ -10,6 +11,8 @@ window.addEventListener("message", function(event) {
         case "previousScene":
             vis.previousScene();
             break;
+        case "changeMonsterBarsColor":
+            vis.getSceneByName("monsterytav").barsColor = parseInt(event.data.data.substring(1), 16);
         default:
             break;
     }

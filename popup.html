@@ -3,7 +3,6 @@
 
 <head>
     <meta charset="UTF-8">
-
     <script src="jquery.js"></script>
     <script src="popup.js"></script>
     <style>
@@ -24,6 +23,17 @@
         }
         #logo-text > h3 {
             margin-top: 3.3em;
+        }
+        .control {
+            display: block;
+            width: 100%;
+            margin: 2px;
+        }
+        .control > h4{
+            text-align: center;
+        }
+        .control > h4{
+            text-align: center;
         }
         .button {
             cursor: pointer;
@@ -59,6 +69,13 @@
     </div>
     <hr class="separator">
 
+    <div id="monster-control" class="control">
+        <h4>Monster YTAV</h4>
+        <p>
+            Bars Color:    
+            <input id="monster-input-color" type="color">
+        </p>
+    </div>
 
     <div id="next-visualizer-button" class="button next-visualizer">Next Visualizer</div>
     <div id="previous-visualizer-button" class="button previous-visualizer">Previous Visualizer</div>
