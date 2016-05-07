@@ -9,5 +9,9 @@ jquery.js
 //vim swp files
 *.swp
 
+//emacs recover files
+.#*
+#*#
+
 //extension files
 *.zip
