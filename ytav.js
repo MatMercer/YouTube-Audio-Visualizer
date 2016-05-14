@@ -205,7 +205,7 @@ function monsterYTAVScene(barsColor) {
             inst.freqData[j] = d[i];
 
             //increses the data a little
-            inst.freqData[j] *= 1.5;
+            inst.freqData[j] *= 1.2;
         }
 
         //adjusts some values, incresing the difference
