@@ -210,20 +210,18 @@ function monsterYTAVScene(barsColor) {
 
         //adjusts some values, incresing the difference
         for (i = 0; i < inst.freqData.length; i++) {
-            inst.freqData[i] *= (inst.freqData[i] / 0.1) * (inst.freqData[i]);
-            inst.freqData[i] *= 0.10;
-
+            inst.freqData[i] *= (inst.freqData[i] / 0.12) * (inst.freqData[i]);
+            inst.freqData[i] *= 0.12;
         }
 
         //used to remove "dead falls" on the bars
         //make the frequency data more dynamic
-        for (i = 1, j = inst.freqData.length - 1; i < inst.freqData.length; i++) {
-            inst.freqData[i] += 0.5 * inst.freqData[i - 1];
-            inst.freqData[j - i] += 0.5 * inst.freqData[j - (i - 1)];
+        for (i = 1, j = inst.freqData.length - 1; i < inst.freqData.length; i++, j--) {
+            inst.freqData[i] += 0.57 * inst.freqData[i - 1];
+            inst.freqData[j] += 0.57 * inst.freqData[j - 1];
         }
 
     };
-
 }
 
 function audioVisualizer(width, height, containerSelector, sourceSelector, playerSelector, analyserData) {
