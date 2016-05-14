@@ -366,7 +366,7 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
     //transform freqData to percentages
     inst.cleanUpFreqDataArray = function() {
         for (i in inst.freqDataArray) {
-            if (inst.freqDataArray[i] <= -100 || inst.freqDataArray[i] == -80) {
+            if (inst.freqDataArray[i] <= -100 || inst.freqDataArray[i] == -80 || inst.freqDataArray[i] == -50) {
                 inst.freqDataArray[i] = 0;
                 continue;
             }
