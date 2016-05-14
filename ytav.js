@@ -1,5 +1,6 @@
 //the visualization var, global
 var vis;
+
 function barsScene(barsColor, backgroundColor, backgroundOpacity) {
     //the instance
     var inst = this;
@@ -143,7 +144,7 @@ function monsterYTAVScene(barsColor) {
     //custom freqData
     inst.low = new PIXI.Point(5, 40);
     inst.mid = new PIXI.Point(50, 85);
-    inst.high = new PIXI.Point(1000, 1020);
+    inst.high = new PIXI.Point(2030, 2050);
 
     //custom freqdata
     inst.freqData = [];
@@ -192,33 +193,33 @@ function monsterYTAVScene(barsColor) {
         //the low frequency data
         for (i = inst.low.x, j = 0; i < inst.low.y; i++, j++) {
             inst.freqData[j] = d[i];
-
-            //increases the "data difference"
-            inst.freqData[j] *= (d[i] / 0.35) * (d[i]);
         }
 
         //the medium frequency data
         for (i = inst.mid.x, j; i < inst.mid.y; i++, j++) {
             inst.freqData[j] = d[i];
-
-            //increses the "data difference"
-            inst.freqData[j] *= (d[i] / 0.29) * (d[i]);
         }
 
         //the high frequency data
         for (i = inst.high.x, j; i < inst.high.y; i++, j++) {
             inst.freqData[j] = d[i];
 
-            //increases the data
-            d[i] *= 1.4;
+            //increses the data a little
+            inst.freqData[j] *= 1.5;
+        }
+
+        //adjusts some values, incresing the difference
+        for (i = 0; i < inst.freqData.length; i++) {
+            inst.freqData[i] *= (inst.freqData[i] / 0.1) * (inst.freqData[i]);
+            inst.freqData[i] *= 0.10;
+
         }
 
         //used to remove "dead falls" on the bars
         //make the frequency data more dynamic
-        for (i = 0, j = inst.freqData.length - 1; i < inst.freqData.length - 1, j > 1; i++, j--) {
-            inst.freqData[i] += 0.5 * inst.freqData[i + 1];
-            inst.freqData[j] += 0.5 * inst.freqData[j - 1];
-            inst.freqData[j] *= 0.5;
+        for (i = 1, j = inst.freqData.length - 1; i < inst.freqData.length; i++) {
+            inst.freqData[i] += 0.5 * inst.freqData[i - 1];
+            inst.freqData[j - i] += 0.5 * inst.freqData[j - (i - 1)];
         }
 
     };
@@ -383,7 +384,7 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
 
     //go to the previous scene
     inst.previousScene = function() {
-        sceneIndex -= sceneIndex == 0 ? -(sceneTypes.length - 1): 1;
+        sceneIndex -= sceneIndex == 0 ? -(sceneTypes.length - 1) : 1;
         inst.updateAnalyserConfig();
     };
 
