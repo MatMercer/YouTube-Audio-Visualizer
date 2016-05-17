@@ -1,5 +1,5 @@
 # YouTube Audio Visualizer
-YTAV, a HTML5 audio visualizer for YouTube.
+YTAV, a HTML5 & WebGL audio visualizer for YouTube.
 ![Failed to load the image!](https://media.giphy.com/media/3o6EhH71OcTqqp3ies/giphy.gif "Youtube Audio Visualizer")
 
 ## How do I use it?
