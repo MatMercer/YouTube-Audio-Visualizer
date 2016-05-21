@@ -432,4 +432,9 @@ $(document).ready(function() {
     vis = new audioVisualizer(640, 360, "#player", "video", "#player-api");
     vis.init();
     vis.render();
+    setTimeout(function() {
+        $("html, body").animate({
+            scrollTop: $("#movie_player > div.ytp-iv-video-content").offset().top - $("#player > canvas").offset().top
+        }, 500);
+    }, 1000);
 });
