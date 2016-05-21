@@ -4,7 +4,7 @@
 //used to get the text javascript code from files and
 //add it to the script dom element
 
-function setupScripts() {
+function injectScripts() {
     var text = null;
     var script = document.createElement("script");
     $.get(chrome.extension.getURL("/lib/pixi/bin/pixi.min.js"),
@@ -29,4 +29,4 @@ function setupScripts() {
                 });
         });
 }
-setupScripts();
+injectScripts();
