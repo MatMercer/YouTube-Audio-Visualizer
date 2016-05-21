@@ -430,7 +430,7 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
 
 //used to focus on the YT video
 function scrollToVideo() {
-        $("html, body").animate({
-            scrollTop: $("#movie_player > div.ytp-iv-video-content").offset().top - $("#player > canvas").offset().top
-        }, 500);
+    $("html, body").animate({
+        scrollTop: $("#movie_player > div.ytp-iv-video-content").offset().top - $("#player > canvas").offset().top
+    }, 500);
 }

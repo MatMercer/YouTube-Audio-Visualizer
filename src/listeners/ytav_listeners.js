@@ -3,7 +3,7 @@ window.addEventListener("message", function(event) {
     //we only accept messages from ourselves
     if (event.source != window)
         return;
-    switch(event.data.action) {
+    switch (event.data.action) {
         case "nextScene":
             vis.nextScene();
             break;
