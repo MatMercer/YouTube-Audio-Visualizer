@@ -7,19 +7,19 @@
 function setupScripts() {
         var text = null;
         var script = document.createElement("script");
-        $.get(chrome.extension.getURL("pixi.js"),
+        $.get(chrome.extension.getURL("/lib/pixi/bin/pixi.min.js"),
             function(data) {
                 text = "" + data;
                 script.appendChild(document.createTextNode(text));
-                $.get(chrome.extension.getURL("jquery.js"),
+                $.get(chrome.extension.getURL("/lib/jquery/dist/jquery.min.js"),
                     function(data) {
                         text = "" + data;
                         script.appendChild(document.createTextNode(text));
-                        $.get(chrome.extension.getURL("ytav.js"),
+                        $.get(chrome.extension.getURL("/src/ytav.js"),
                             function(data) {
                                 text = "" + data;
                                 script.appendChild(document.createTextNode(text));
-                                $.get(chrome.extension.getURL("ytav_listeners.js"),
+                                $.get(chrome.extension.getURL("/src/listeners/ytav_listeners.js"),
                                     function(data) {
                                         text = "" + data;
                                         script.appendChild(document.createTextNode(text));
