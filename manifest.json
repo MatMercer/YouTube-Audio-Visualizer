@@ -14,7 +14,7 @@
         {
             "runs_at": "document_end",
             "matches": [
-                "https://www.youtube.com/watch?v=*",
+                "https://www.youtube.com/*",
                 "https://youtu.be/*"
             ],
             "js": ["/lib/jquery/dist/jquery.min.js", "/src/injector.js", "/src/listeners/injector_listeners.js"]
