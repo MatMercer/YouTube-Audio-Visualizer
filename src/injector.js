@@ -5,28 +5,28 @@
 //add it to the script dom element
 
 function setupScripts() {
-        var text = null;
-        var script = document.createElement("script");
-        $.get(chrome.extension.getURL("/lib/pixi/bin/pixi.min.js"),
-            function(data) {
-                text = "" + data;
-                script.appendChild(document.createTextNode(text));
-                $.get(chrome.extension.getURL("/lib/jquery/dist/jquery.min.js"),
-                    function(data) {
-                        text = "" + data;
-                        script.appendChild(document.createTextNode(text));
-                        $.get(chrome.extension.getURL("/src/ytav.js"),
-                            function(data) {
-                                text = "" + data;
-                                script.appendChild(document.createTextNode(text));
-                                $.get(chrome.extension.getURL("/src/listeners/ytav_listeners.js"),
-                                    function(data) {
-                                        text = "" + data;
-                                        script.appendChild(document.createTextNode(text));
-                                        document.head.appendChild(script);
-                                    });
-                            });
-                    });
-            });
-    }
+    var text = null;
+    var script = document.createElement("script");
+    $.get(chrome.extension.getURL("/lib/pixi/bin/pixi.min.js"),
+        function(data) {
+            text = "" + data;
+            script.appendChild(document.createTextNode(text));
+            $.get(chrome.extension.getURL("/lib/jquery/dist/jquery.min.js"),
+                function(data) {
+                    text = "" + data;
+                    script.appendChild(document.createTextNode(text));
+                    $.get(chrome.extension.getURL("/src/ytav.js"),
+                        function(data) {
+                            text = "" + data;
+                            script.appendChild(document.createTextNode(text));
+                            $.get(chrome.extension.getURL("/src/listeners/ytav_listeners.js"),
+                                function(data) {
+                                    text = "" + data;
+                                    script.appendChild(document.createTextNode(text));
+                                    document.head.appendChild(script);
+                                });
+                        });
+                });
+        });
+}
 setupScripts();
