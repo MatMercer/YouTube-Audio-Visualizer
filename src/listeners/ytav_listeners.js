@@ -20,10 +20,6 @@ $(document).ready(function() {
     //a listener to check if a new video has been loaded
     //if yes, focus on it
     $(document).bind("DOMNodeInserted", function(e) {
-        //checks if a video element has been loaded
-        if ($(e.target).get(0) == $("video").get(0)) {
-        }
-
         //checks for the video time current time text
         //it is better to use this element because
         //it is added every time
