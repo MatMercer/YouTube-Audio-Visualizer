@@ -1,0 +1,6 @@
+[submodule "lib/pixi"]
+	path = lib/pixi
+	url = https://github.com/pixijs/pixi.js.git
+[submodule "lib/jquery"]
+	path = lib/jquery
+	url = https://github.com/jquery/jquery.git
