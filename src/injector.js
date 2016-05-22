@@ -15,7 +15,7 @@ function injectScripts() {
                 function(data) {
                     text = "" + data;
                     script.appendChild(document.createTextNode(text));
-                    $.get(chrome.extension.getURL("/lib/cookie/src/js.cookie.js"),
+                    $.get(chrome.extension.getURL("/lib/localstorage/lockr.min.js"),
                         function(data) {
                             text = "" + data;
                             script.appendChild(document.createTextNode(text));
@@ -35,5 +35,3 @@ function injectScripts() {
         });
 }
 injectScripts();
-
-//Cookies.set("barscene", "aaa", {expires: 365});
