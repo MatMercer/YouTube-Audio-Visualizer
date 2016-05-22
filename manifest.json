@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Youtube Audio Visualizer",
-    "version": "0.2",
+    "version": "0.3",
     "description": "A HTML5 audio visualizer for YouTube. Contribute to it now! https://github.com/MrAnyone/YouTube-Audio-Visualizer",
     "author": "MrAnyone",
     "icons": {
