@@ -1,9 +1,19 @@
 //the visualization var, global
 var vis;
 
-function barsScene(barsColor, backgroundColor, backgroundOpacity) {
+function barsScene(setup) {
     //the instance
     var inst = this;
+
+    //the settings
+    inst.settings = {
+        fftSize: setup.fttSize || 256,
+        smooth: setup.smooth || 0.8,
+        barsColor: setup.barsColor || 0xfc3030,
+        backgroundColor: setup.backgroundColor || 0x000000,
+        backgroundOpacity: setup.backgroundOpacity || 0,
+        excludeRatio: setup.excludeRatio || 33
+    }
 
     //the scene name
     inst.name = "Bars";
@@ -235,6 +245,7 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
         "ocilloscope",
         "monster"
     ];
+
     //private
     var sceneIndex = 2;
 
@@ -322,7 +333,7 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
         inst.analyser.getFloatTimeDomainData(inst.timeDataArray);
 
         //the instance of the scenes
-        bars = new barsScene();
+        bars = new barsScene(getSettings("barscene"));
 
         ocillo = new ocilloscopeScene();
 
