@@ -4,8 +4,8 @@ function getSettings(name) {
     if (typeof name != "string")
         return setup;
 
-    
-    switch(name.toLowerCase()) {
+
+    switch (name.toLowerCase()) {
         case "barsscene":
             break;
     }
