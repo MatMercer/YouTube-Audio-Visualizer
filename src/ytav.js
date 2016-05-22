@@ -333,7 +333,7 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
         inst.analyser.getFloatTimeDomainData(inst.timeDataArray);
 
         //the instance of the scenes
-        bars = new barsScene(getSettings("barscene"));
+        bars = new barsScene(getSettings("barsscene"));
 
         ocillo = new ocilloscopeScene();
 

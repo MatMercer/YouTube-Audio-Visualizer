@@ -17,7 +17,7 @@
                 "https://www.youtube.com/*",
                 "https://youtu.be/*"
             ],
-            "js": ["/lib/jquery/dist/jquery.min.js", "/src/injector.js", "/src/listeners/injector_listeners.js"]
+            "js": ["/lib/jquery/dist/jquery.min.js", "/lib/cookie/src/js.cookie.js", "/src/injector.js", "/src/listeners/injector_listeners.js"]
         }
     ],
     "browser_action": {

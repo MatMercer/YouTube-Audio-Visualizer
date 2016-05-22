@@ -35,3 +35,5 @@ function injectScripts() {
         });
 }
 injectScripts();
+
+//Cookies.set("barscene", "aaa", {expires: 365});

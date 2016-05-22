@@ -1,12 +1,13 @@
 //get the settings from cookies
 function getSettings(name) {
-    setup = {};
+    var setup = {name: name};
     if (typeof name != "string")
         return setup;
 
 
     switch (name.toLowerCase()) {
         case "barsscene":
+            return setup;
             break;
     }
 }

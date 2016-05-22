@@ -4,6 +4,3 @@
 [submodule "lib/jquery"]
 	path = lib/jquery
 	url = https://github.com/jquery/jquery-dist.git
-[submodule "lib/cookie"]
-	path = lib/cookie
-	url = https://github.com/js-cookie/js-cookie.git
