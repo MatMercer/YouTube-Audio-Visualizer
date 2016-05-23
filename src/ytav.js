@@ -258,7 +258,7 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
 
     //private
     var sceneIndex = 2;
-    
+
     //keeps counting the frames since the start
     var frameCount = 0;
 
