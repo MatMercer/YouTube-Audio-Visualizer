@@ -28,7 +28,7 @@ function getSettings() {
     //if s undefined or if running for 
     //the first time
     if (s == undefined) {
-        s = setDefaultSettings();
+        s = gettersAndSetters(setDefaultSettings());
     }
     return s;
 }
