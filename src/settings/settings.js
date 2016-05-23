@@ -4,6 +4,8 @@ function getSettings(s) {
     if(Lockr.get("ytav") == undefined) {
         setDefaultSettings();
     }
+    
+    s = Lockr.get("ytav");
 
     return s;
 }

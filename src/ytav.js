@@ -1,22 +1,12 @@
 //the visualization var, global
 var vis;
 
-//the global config
-var config;
+//the settings
+var st;
 
-function barsScene(setup) {
+function barsScene() {
     //the instance
     var inst = this;
-
-    //the settings
-    inst.settings = {
-        fftSize: setup.fttSize || 256,
-        smooth: setup.smooth || 0.8,
-        barsColor: setup.barsColor || 0xfc3030,
-        backgroundColor: setup.backgroundColor || 0x000000,
-        backgroundOpacity: setup.backgroundOpacity || 0,
-        excludeRatio: setup.excludeRatio || 33
-    }
 
     //the scene name
     inst.name = "Bars";
@@ -266,6 +256,9 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
 
     //private
     var sceneIndex = 2;
+    
+    //keeps counting the frames since the start
+    var frameCount = 0;
 
     //the video dom used to find the size
     inst.$player = $(playerSelector);
@@ -351,7 +344,7 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
         inst.analyser.getFloatTimeDomainData(inst.timeDataArray);
 
         //the instance of the scenes
-        bars = new barsScene(getSettings("barsscene"));
+        bars = new barsScene();
 
         ocillo = new ocilloscopeScene();
 
@@ -366,6 +359,9 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
     };
 
     inst.render = function() {
+        //updates the frameCount
+        frameCount += 1;
+
         if (!inst.paused) {
             //get the audio dada & clean it
             inst.analyser.getFloatFrequencyData(inst.freqDataArray);
