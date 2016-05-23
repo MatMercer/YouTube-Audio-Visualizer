@@ -52,5 +52,6 @@ flycheck_*.el
 
 # projectiles files
 
-//extension files
+//binary files
 *.zip
+*.mp4

@@ -13,12 +13,27 @@
         h1 {
             text-align: center;
         }
+
+        video {
+            width: 720px;
+            height: 480px;
+        }
     </style>
     <title>YTAV DEMO</title>
 </head>
 
 <body>
     <h1>A page for offline testing [DEMO]</h1>
+    
+    <div id="player-api">
+        <div id="player">
+            <video controls>
+            <source
+            src="video.mp4" type="video/mp4">
+                Video probably not found :(
+            </video>
+        </div>
+    </div>
 
     <div id="movie_player">
         <div class="ytp-chrome-bottom">

@@ -19,13 +19,13 @@ function barsScene(setup) {
     inst.name = "Bars";
 
     //the bars color
-    inst.barsColor = barsColor || 0xfc3030;
+    inst.barsColor = 0xfc3030;
 
     //background color
-    inst.backgroundColor = backgroundColor || 0x000000;
+    inst.backgroundColor = 0x000000;
 
     //background opacity
-    inst.backgroundOpacity = backgroundOpacity || 0;
+    inst.backgroundOpacity = 0;
 
     //exclude some "dead bars"
     inst.excludeRatio = 33;
