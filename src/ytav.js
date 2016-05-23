@@ -153,6 +153,12 @@ function monsterYTAVScene(barsColor) {
     //the bars color
     inst.barsColor = barsColor || 0xfc3030;
 
+    //background color
+    inst.backgroundColor = 0;
+
+    //background opacity
+    inst.backgroundOpacity = 0;
+
     //the frequency index used to set the
     //custom freqData
     inst.low = new PIXI.Point(5, 40);
@@ -180,6 +186,15 @@ function monsterYTAVScene(barsColor) {
 
         //clears the graphics
         g.clear();
+
+        if (inst.backgroundOpacity) {
+            //draw the background
+            g.beginFill(inst.backgroundColor, inst.backgroundOpacity);
+            g.drawRect(-10, -10, r.width + 10, r.height + 10);
+
+            //ends the fill for background
+            g.endFill();
+        }
 
         //draw the bars
         g.beginFill(inst.barsColor, 1);
