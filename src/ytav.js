@@ -3,8 +3,7 @@ var vis;
 
 //the settings uses a backbone event
 //to see if it has been updated
-var st;
-
+var st = getSettings();
 
 function barsScene() {
     //the instance
@@ -460,4 +459,11 @@ function scrollToVideo() {
     $("html, body").animate({
         scrollTop: $("#content").offset().top - $("#player > canvas").offset().top
     }, 500);
+}
+
+//used to know if the settings has been changed
+function refreshVisSettings() {
+    console.log("A setting have changed!");
+    //lets see what I can do in here....
+    //cya github
 }
