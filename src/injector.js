@@ -19,29 +19,19 @@ function injectScripts() {
                         function(data) {
                             text = "" + data;
                             script.appendChild(document.createTextNode(text));
-                            $.get(chrome.extension.getURL("/lib/underscore/underscore-min.js"),
+                            $.get(chrome.extension.getURL("/src/settings/settings.js"),
                                 function(data) {
                                     text = "" + data;
                                     script.appendChild(document.createTextNode(text));
-                                    $.get(chrome.extension.getURL("/lib/backbone/backbone-min.js"),
+                                    $.get(chrome.extension.getURL("/src/ytav.js"),
                                         function(data) {
                                             text = "" + data;
                                             script.appendChild(document.createTextNode(text));
-                                            $.get(chrome.extension.getURL("/src/settings/settings.js"),
+                                            $.get(chrome.extension.getURL("/src/listeners/ytav_listeners.js"),
                                                 function(data) {
                                                     text = "" + data;
                                                     script.appendChild(document.createTextNode(text));
-                                                    $.get(chrome.extension.getURL("/src/ytav.js"),
-                                                        function(data) {
-                                                            text = "" + data;
-                                                            script.appendChild(document.createTextNode(text));
-                                                            $.get(chrome.extension.getURL("/src/listeners/ytav_listeners.js"),
-                                                                function(data) {
-                                                                    text = "" + data;
-                                                                    script.appendChild(document.createTextNode(text));
-                                                                    document.head.appendChild(script);
-                                                                });
-                                                        });
+                                                    document.head.appendChild(script);
                                                 });
                                         });
                                 });

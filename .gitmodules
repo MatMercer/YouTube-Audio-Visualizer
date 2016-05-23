@@ -7,9 +7,3 @@
 [submodule "lib/localstorage"]
 	path = lib/localstorage
 	url = https://github.com/tsironis/lockr.git
-[submodule "lib/backbone"]
-	path = lib/backbone
-	url = https://github.com/jashkenas/backbone.git
-[submodule "lib/underscore"]
-	path = lib/underscore
-	url = https://github.com/jashkenas/underscore.git
