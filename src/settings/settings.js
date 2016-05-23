@@ -1,19 +1,22 @@
 //get the settings local storage
 //storing it in the s variable
-function getSettings(s) {
-    if(Lockr.get("ytav") == undefined) {
-        setDefaultSettings();
-    }
-    
+function getSettings() {
+    //get the current settings
     s = Lockr.get("ytav");
 
+    //set the default settings
+    //if s undefined or if running for 
+    //the first time
+    if(s == undefined) {
+        s = setDefaultSettings();
+    }
     return s;
 }
 
 //sets the default settings
 //always executed in the first time
 function setDefaultSettings() {
-    var s = {
+    s = {
         version: "3.0",
         settings: {
             global: {
@@ -46,4 +49,6 @@ function setDefaultSettings() {
     };
 
     Lockr.set("ytav", s);
+
+    return s;
 }

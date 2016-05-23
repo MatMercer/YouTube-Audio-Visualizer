@@ -1,8 +1,10 @@
 //the visualization var, global
 var vis;
 
-//the settings
+//the settings uses a backbone event
+//to see if it has been updated
 var st;
+
 
 function barsScene() {
     //the instance
