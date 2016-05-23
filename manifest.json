@@ -9,7 +9,7 @@
         "48": "ytav_icon_48.png",
         "128": "ytav_icon_128.png"
     },
-    "web_accessible_resources": ["/lib/pixi/bin/pixi.min.js", "/lib/jquery/dist/jquery.min.js", "/lib/localstorage/lockr.min.js", "/src/ytav.js", "/src/listeners/ytav_listeners.js"],
+    "web_accessible_resources": ["/lib/pixi/bin/pixi.min.js", "/lib/jquery/dist/jquery.min.js", "/lib/localstorage/lockr.min.js", "/src/settings/settings.js", "/src/ytav.js", "/src/listeners/ytav_listeners.js"],
     "options_page": "/src/config/config.html",
     "content_scripts": [
         {

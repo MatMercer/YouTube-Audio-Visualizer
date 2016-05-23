@@ -1,6 +1,9 @@
 //the visualization var, global
 var vis;
 
+//the global config
+var config;
+
 function barsScene(setup) {
     //the instance
     var inst = this;

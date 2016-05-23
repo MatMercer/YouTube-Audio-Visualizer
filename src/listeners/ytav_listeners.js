@@ -1,17 +1,3 @@
-//get the settings from cookies
-function getSettings(name) {
-    var setup = {name: name};
-    if (typeof name != "string")
-        return setup;
-
-
-    switch (name.toLowerCase()) {
-        case "barsscene":
-            return setup;
-            break;
-    }
-}
-
 //receives a message and parse it to visualizer actions
 window.addEventListener("message", function(event) {
     //we only accept messages from ourselves
