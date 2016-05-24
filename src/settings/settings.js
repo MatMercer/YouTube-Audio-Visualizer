@@ -22,14 +22,15 @@ function gettersAndSetters(o) {
 //storing it in the s variable
 function getSettings() {
     //get the current settings
-    s = gettersAndSetters(Lockr.get("ytav"));
+    s = Lockr.get("ytav");
 
     //set the default settings
     //if s undefined or if running for 
     //the first time
-    if (s == undefined) {
-        s = gettersAndSetters(setDefaultSettings());
+    if (s === undefined) {
+        s = setDefaultSettings();
     }
+    gettersAndSetters(s);
     return s;
 }
 
