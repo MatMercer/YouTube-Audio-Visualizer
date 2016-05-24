@@ -1,19 +1,11 @@
-//add get and set to all objects
-//inside the settings, injecting
-//a listener in the set method
+//add custom get and set to all
+//objects inside the settings
 function gettersAndSetters(o) {
+    o.get = getSettingsFunc;
+    o.set = setSettingsFunc;
     for (i in o) {
         if (typeof o[i] == "object") {
             gettersAndSetters(o[i]);
-            o.get = function(w) {
-                return this[w];
-            }
-            o.set = function(w, v) {
-                if (this[w] !== undefined && v !== undefined && v !== this[w]) {
-                    this[w] = v;
-                    refreshVisSettings();
-                }
-            }
         }
     }
 }
@@ -69,9 +61,20 @@ function setDefaultSettings() {
         }
     };
 
-    gettersAndSetters(s);
-
     Lockr.set("ytav", s);
 
     return s;
+}
+
+//the get & set function used
+//inside the settings objects
+function getSettingsFunc(w) {
+    return this[w];
+}
+
+function setSettingsFunc() {
+    if (this[w] !== undefined && v !== undefined && v !== this[w]) {
+        this[w] = v;
+        refreshVisSettings();
+    }
 }
