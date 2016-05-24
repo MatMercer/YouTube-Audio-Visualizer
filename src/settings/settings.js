@@ -3,6 +3,7 @@ var defaultSettings = {
     version: "3.0",
     settings: {
         global: {
+            sceneIndex: 2,
             enabled: true
         },
         scenes: {
@@ -22,6 +23,7 @@ var defaultSettings = {
                 backgroundOpacity: 0
             },
             monsterytav: {
+                fftSize: 8192,
                 smooth: 0.8,
                 barsColor: 0xfc3030,
                 barsDist: 1,
@@ -79,7 +81,7 @@ function getSettingsFunc(w) {
 function setSettingsFunc(w, v) {
     if (this[w] !== undefined && v !== undefined && v !== this[w]) {
         this[w] = v;
-        refreshVisSettings(s);
+        refreshVisSettings(w);
     }
 }
 

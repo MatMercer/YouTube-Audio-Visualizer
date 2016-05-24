@@ -230,11 +230,8 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
     var sceneTypes = [
         "bars",
         "ocilloscope",
-        "monster"
+        "monsterytav"
     ];
-
-    //private
-    var sceneIndex = 2;
 
     //keeps counting the frames since the start
     var frameCount = 0;
@@ -259,12 +256,6 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
         maxDecibels: 0,
         smoothingTimeConstant: 0.8
     };
-
-    //monster visualizer custom fft, private
-    var monsterVisData = {
-        fftSize: 8192,
-        smoothingTimeConstant: 0.75
-    }
 
     //the scenes instances
     var scenes = [];
@@ -351,16 +342,16 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
         }
 
         //renders the current scene
-        switch (sceneTypes[sceneIndex]) {
-            case "monster":
-                scenes[sceneIndex].render(inst.container, inst.g, inst.renderer, inst.freqDataArray);
+        switch (sceneTypes[st.settings.global.sceneIndex]) {
+            case "monsterytav":
+                scenes[st.settings.global.sceneIndex].render(inst.container, inst.g, inst.renderer, inst.freqDataArray);
                 break;
             case "ocilloscope":
-                scenes[sceneIndex].render(inst.container, inst.g, inst.renderer, inst.timeDataArray);
+                scenes[st.settings.global.sceneIndex].render(inst.container, inst.g, inst.renderer, inst.timeDataArray);
                 break;
             case "bars":
             default:
-                scenes[sceneIndex].render(inst.container, inst.g, inst.renderer, inst.freqDataArray);
+                scenes[st.settings.global.sceneIndex].render(inst.container, inst.g, inst.renderer, inst.freqDataArray);
                 break;
         }
 
@@ -380,13 +371,18 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
 
     //go to the next scene
     inst.nextScene = function() {
-        sceneIndex += sceneIndex == sceneTypes.length - 1 ? -sceneIndex : 1;
+        idx = st.settings.global.sceneIndex;
+        idx += idx == sceneTypes.length - 1 ? -idx : 1;
+        st.settings.global.set("sceneIndex", idx);
         inst.updateAnalyserConfig();
     };
 
     //go to the previous scene
     inst.previousScene = function() {
-        sceneIndex -= sceneIndex == 0 ? -(sceneTypes.length - 1) : 1;
+        idx = st.settings.global.sceneIndex;
+        idx -= idx == 0 ? -(sceneTypes.length - 1) : 1;
+        console.log(idx);
+        st.settings.global.set("sceneIndex", idx);
         inst.updateAnalyserConfig();
     };
 
@@ -405,20 +401,8 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
 
     //update the analyser config
     inst.updateAnalyserConfig = function(config) {
-        if (scenes[sceneIndex].name == "MonsterYTAV")
-            config = monsterVisData;
-
-        if (!config) {
-            inst.setFFT(inst.analyserData.fftSize);
-            inst.analyser.minDecibels = inst.analyserData.minDecibels;
-            inst.analyser.maxDecibels = inst.analyserData.maxDecibels;
-            inst.analyser.smoothingTimeConstant = inst.analyserData.smoothingTimeConstant;
-        } else {
-            inst.setFFT(config.fftSize || inst.analyserData.fftSize);
-            inst.analyser.minDecibels = config.minDecibels || inst.analyserData.minDecibels;
-            inst.analyser.maxDecibels = config.maxDecibels || inst.analyserData.maxDecibels;
-            inst.analyser.smoothingTimeConstant = config.smoothingTimeConstant || inst.analyserData.smoothingTimeConstant;
-        }
+        inst.analyser.smoothingTimeConstant = st.settings.scenes.get(sceneTypes[st.settings.global.sceneIndex]).smooth || 0.8;
+        inst.setFFT(st.settings.scenes.get(sceneTypes[st.settings.global.sceneIndex]).fftSize || 256);
     };
 
     inst.getSceneByName = function(name) {
@@ -440,6 +424,13 @@ function scrollToVideo() {
 }
 
 //used to know if the settings has been changed
-function refreshVisSettings(s) {
+function refreshVisSettings(w) {
+    switch(w) {
+        case "smooth":
+        case "fftSize":
+            vis.updateAnalyserConfig();
+        default:
+            break;
+    }
     saveSettings(st);
 }
