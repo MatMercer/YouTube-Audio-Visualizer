@@ -66,13 +66,13 @@ function setDefaultSettings() {
     return s;
 }
 
-//the get & set function used
+//the get & set functions used
 //inside the settings objects
 function getSettingsFunc(w) {
     return this[w];
 }
 
-function setSettingsFunc() {
+function setSettingsFunc(w, v) {
     if (this[w] !== undefined && v !== undefined && v !== this[w]) {
         this[w] = v;
         refreshVisSettings();
