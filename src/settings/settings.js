@@ -1,3 +1,37 @@
+//the default settings
+var defaultSettings = {
+    version: "3.0",
+    settings: {
+        global: {
+            enabled: true
+        },
+        scenes: {
+            bars: {
+                fftSize: 256,
+                smooth: 0.8,
+                barsColor: 0xfc3030,
+                backgroundColor: 0,
+                backgroundOpacity: 0,
+                excludeRatio: 33
+            },
+            ocilloscope: {
+                fftSize: 256,
+                lineColor: 0xfc3030,
+                lineWidth: 2,
+                backgroundColor: 0,
+                backgroundOpacity: 0
+            },
+            monsterytav: {
+                smooth: 0.8,
+                barsColor: 0xfc3030,
+                barsDist: 1,
+                backgroundColor: 0,
+                backgroundOpacity: 0
+            }
+        }
+    }
+};
+
 //add custom get and set to all
 //objects inside the settings
 function gettersAndSetters(o) {
@@ -22,6 +56,8 @@ function getSettings() {
     if (s === undefined) {
         s = setDefaultSettings();
     }
+
+    checkSettingsUpdate(s, defaultSettings)
     gettersAndSetters(s);
     return s;
 }
@@ -29,41 +65,9 @@ function getSettings() {
 //sets the default settings
 //always executed in the first time
 function setDefaultSettings() {
-    s = {
-        version: "3.0",
-        settings: {
-            global: {
-                enabled: true
-            },
-            scenes: {
-                bars: {
-                    fftSize: 256,
-                    smooth: 0.8,
-                    barsColor: 0xfc3030,
-                    backgroundColor: 0,
-                    backgroundOpacity: 0,
-                    excludeRatio: 33
-                },
-                ocilloscope: {
-                    fftSize: 256,
-                    lineColor: 0xfc3030,
-                    lineWidth: 2,
-                    backgroundColor: 0,
-                    backgroundOpacity: 0
-                },
-                monsterytav: {
-                    smooth: 0.8,
-                    barsColor: 0xfc3030,
-                    backgroundColor: 0,
-                    backgroundOpacity: 0
-                }
-            }
-        }
-    };
+    Lockr.set("ytav", defaultSettings);
 
-    Lockr.set("ytav", s);
-
-    return s;
+    return defaultSettings; 
 }
 
 //the get & set functions used
@@ -84,6 +88,15 @@ function saveSettings(s) {
     Lockr.set("ytav", s);
 }
 
-function checkSettingsUpdate(s) {
-    for (i in defaultSettings);
+//checks the settings and update it
+//if possible, note that if
+//a setting has changed the name
+//it will be reseted
+function checkSettingsUpdate(cs, ds) {
+    for (i in ds) {
+        if(cs[i] === undefined)
+            cs[i] = ds[i];
+        if(typeof ds[i] === "object")
+            checkSettingsUpdate(cs[i], ds[i]);
+    }
 }
