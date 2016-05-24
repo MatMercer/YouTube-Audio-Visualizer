@@ -75,7 +75,7 @@ function getSettingsFunc(w) {
 function setSettingsFunc(w, v) {
     if (this[w] !== undefined && v !== undefined && v !== this[w]) {
         this[w] = v;
-        refreshVisSettings();
+        refreshVisSettings(s);
     }
 }
 

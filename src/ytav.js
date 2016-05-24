@@ -1,8 +1,8 @@
 //the visualization var, global
 var vis;
 
-//the settings uses a backbone event
-//to see if it has been updated
+//the settings, used by everything
+//in real time
 var st = getSettings();
 
 function barsScene() {
@@ -12,24 +12,12 @@ function barsScene() {
     //the scene name
     inst.name = "Bars";
 
-    //the bars color
-    inst.barsColor = 0xfc3030;
-
-    //background color
-    inst.backgroundColor = 0x000000;
-
-    //background opacity
-    inst.backgroundOpacity = 0;
-
-    //exclude some "dead bars"
-    inst.excludeRatio = 33;
-
     //renders the scene, using the container, graphics, renderer & freqDataArray
     inst.render = function(c, g, r, d) {
         //the animation
 
         //a constant to calculate the bar width responsively
-        inst.widthConstant = (100 / (vis.freqDataArray.length - inst.excludeRatio));
+        inst.widthConstant = (100 / (vis.freqDataArray.length - st.settings.scenes.bars.excludeRatio));
 
         //clears the graphics
         g.clear();
@@ -44,10 +32,10 @@ function barsScene() {
         }
 
         //draw the bars
-        g.beginFill(inst.barsColor, 1);
+        g.beginFill(st.settings.scenes.bars.barsColor, 1);
 
         //generate the bars based on i dataArray audio percentage
-        for (i = 0; i < d.length - inst.excludeRatio; i++) {
+        for (i = 0; i < d.length - st.settings.scenes.bars.excludeRatio; i++) {
             //the bar width based on the widthConstant
             barWidth = inst.widthConstant * (r.width / 100);
 
@@ -257,7 +245,7 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
 
     //private
     var sceneIndex = 2;
-    
+
     //keeps counting the frames since the start
     var frameCount = 0;
 
@@ -462,7 +450,6 @@ function scrollToVideo() {
 }
 
 //used to know if the settings has been changed
-function refreshVisSettings() {
-    console.log("A setting have changed!");
+function refreshVisSettings(s) {
     saveSettings(st);
 }
