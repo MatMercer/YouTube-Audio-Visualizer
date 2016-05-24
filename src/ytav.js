@@ -34,9 +34,9 @@ function barsScene() {
         //clears the graphics
         g.clear();
 
-        if (inst.backgroundOpacity) {
+        if (st.settings.scenes.bars.backgroundOpacity) {
             //draw the background
-            g.beginFill(inst.backgroundColor, inst.backgroundOpacity);
+            g.beginFill(st.settings.scenes.bars.backgroundColor, st.settings.scenes.bars.backgroundOpacity);
             g.drawRect(-10, -10, r.width + 10, r.height + 10);
 
             //ends the fill for background
@@ -464,6 +464,5 @@ function scrollToVideo() {
 //used to know if the settings has been changed
 function refreshVisSettings() {
     console.log("A setting have changed!");
-    //lets see what I can do in here....
-    //cya github
+    saveSettings(st);
 }

@@ -78,3 +78,8 @@ function setSettingsFunc(w, v) {
         refreshVisSettings();
     }
 }
+
+//save the settings
+function saveSettings(s) {
+    Lockr.set("ytav", s);
+}
