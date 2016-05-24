@@ -156,9 +156,9 @@ function monsterYTAVScene(barsColor) {
         //clears the graphics
         g.clear();
 
-        if (inst.backgroundOpacity) {
+        if (st.settings.scenes.ocilloscope.backgroundOpacity) {
             //draw the background
-            g.beginFill(inst.backgroundColor, inst.backgroundOpacity);
+            g.beginFill(st.settings.scenes.monsterytav.backgroundColor, st.settings.scenes.monsterytav.backgroundOpacity);
             g.drawRect(-10, -10, r.width + 10, r.height + 10);
 
             //ends the fill for background
@@ -166,7 +166,7 @@ function monsterYTAVScene(barsColor) {
         }
 
         //draw the bars
-        g.beginFill(inst.barsColor, 1);
+        g.beginFill(st.settings.scenes.monsterytav.barsColor, 1);
 
         //a width constant
         inst.widthConstant = (100 / inst.freqData.length);

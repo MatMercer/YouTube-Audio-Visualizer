@@ -83,3 +83,7 @@ function setSettingsFunc(w, v) {
 function saveSettings(s) {
     Lockr.set("ytav", s);
 }
+
+function checkSettingsUpdate(s) {
+    for (i in defaultSettings);
+}
