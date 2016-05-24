@@ -23,12 +23,7 @@ function barsScene() {
         g.clear();
 
         if (st.settings.scenes.bars.backgroundOpacity) {
-            //draw the background
-            g.beginFill(st.settings.scenes.bars.backgroundColor, st.settings.scenes.bars.backgroundOpacity);
-            g.drawRect(-10, -10, r.width + 10, r.height + 10);
-
-            //ends the fill for background
-            g.endFill();
+            drawBackground(g, r, st.settings.scenes.bars.backgroundColor, st.settings.scenes.bars.backgroundOpacity);
         }
 
         //draw the bars
@@ -70,12 +65,7 @@ function ocilloscopeScene(lineColor, lineWidth, backgroundColor, backgroundOpaci
         g.clear();
 
         if (st.settings.scenes.ocilloscope.backgroundOpacity) {
-            //draw the background
-            g.beginFill(st.settings.scenes.ocilloscope.backgroundColor, st.settings.scenes.ocilloscope.backgroundOpacity);
-            g.drawRect(-10, -10, r.width + 10, r.height + 10);
-
-            //ends the fill for background
-            g.endFill();
+            drawBackground(g, r, st.settings.scenes.ocilloscope.backgroundColor, st.settings.scenes.ocilloscope.backgroundOpacity);
         }
 
         //move the drawer to start point
@@ -157,12 +147,7 @@ function monsterYTAVScene(barsColor) {
         g.clear();
 
         if (st.settings.scenes.ocilloscope.backgroundOpacity) {
-            //draw the background
-            g.beginFill(st.settings.scenes.monsterytav.backgroundColor, st.settings.scenes.monsterytav.backgroundOpacity);
-            g.drawRect(-10, -10, r.width + 10, r.height + 10);
-
-            //ends the fill for background
-            g.endFill();
+            drawBackground(g, r, st.settings.scenes.monsterytav.backgroundColor, st.settings.scenes.monsterytav.backgroundOpacity);
         }
 
         //draw the bars
@@ -425,7 +410,7 @@ function scrollToVideo() {
 
 //used to know if the settings has been changed
 function refreshVisSettings(w) {
-    switch(w) {
+    switch (w) {
         case "smooth":
         case "fftSize":
             vis.updateAnalyserConfig();
@@ -433,4 +418,16 @@ function refreshVisSettings(w) {
             break;
     }
     saveSettings(st);
+}
+
+//draws a background with
+//given pixi graphics & render, 
+//color & opacity
+function drawBackground(g, r, c, o) {
+    //draw the background
+    g.beginFill(c, o);
+    g.drawRect(-10, -10, r.width + 10, r.height + 10);
+
+    //ends the fill for background
+    g.endFill();
 }
