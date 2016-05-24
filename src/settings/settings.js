@@ -9,7 +9,7 @@ function gettersAndSetters(o) {
                 return this[w];
             }
             o.set = function(w, v) {
-                if (this[w] != undefined) {
+                if (this[w] !== undefined && v !== undefined && v !== this[w]) {
                     this[w] = v;
                     refreshVisSettings();
                 }
