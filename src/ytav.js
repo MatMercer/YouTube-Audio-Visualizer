@@ -59,16 +59,6 @@ function ocilloscopeScene(lineColor, lineWidth, backgroundColor, backgroundOpaci
     //the scene name
     inst.name = "Oscilloscope";
 
-    //the line style
-    inst.lineColor = lineColor || 0xfc3030;
-    inst.lineWidth = lineWidth || 2;
-
-    //background color
-    inst.backgroundColor = backgroundColor || 0x000000;
-
-    //background opacity
-    inst.backgroundOpacity = backgroundOpacity || 0;
-
     //renders the scene, using container, graphics, renderer & timeData
     inst.render = function(c, g, r, d) {
         //the animation
@@ -79,9 +69,9 @@ function ocilloscopeScene(lineColor, lineWidth, backgroundColor, backgroundOpaci
         //clears the graphics
         g.clear();
 
-        if (inst.backgroundOpacity) {
+        if (st.settings.scenes.ocilloscope.backgroundOpacity) {
             //draw the background
-            g.beginFill(inst.backgroundColor, inst.backgroundOpacity);
+            g.beginFill(st.settings.scenes.ocilloscope.backgroundColor, st.settings.scenes.ocilloscope.backgroundOpacity);
             g.drawRect(-10, -10, r.width + 10, r.height + 10);
 
             //ends the fill for background
@@ -92,7 +82,7 @@ function ocilloscopeScene(lineColor, lineWidth, backgroundColor, backgroundOpaci
         g.moveTo(0, (r.height / 2) + (r.height * d[0] / 1.5));
 
         //the line style
-        g.lineStyle(inst.lineWidth, inst.lineColor);
+        g.lineStyle(st.settings.scenes.ocilloscope.lineWidth, st.settings.scenes.ocilloscope.lineColor);
 
         //start drawing with a color & oppacity
         g.beginFill(inst.lineColor, 0);
