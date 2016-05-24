@@ -172,10 +172,10 @@ function monsterYTAVScene(barsColor) {
         inst.widthConstant = (100 / inst.freqData.length);
 
         //the bar width, discouting the barDist
-        barWidth = inst.widthConstant * ((inst.barArea.x - (inst.barDist * inst.freqData.length)) / 100);
+        barWidth = inst.widthConstant * ((inst.barArea.x - (st.settings.scenes.monsterytav.barsDist * inst.freqData.length)) / 100);
 
         for (i in inst.freqData) {
-            g.drawRect(inst.barPos.x + (barWidth * i) + (inst.barDist * i), ((r.height / 2) + (r.height * 0.2)) - (inst.barArea.y * inst.freqData[i]), barWidth, (inst.barArea.y * inst.freqData[i]) + (inst.barArea.y / 100));
+            g.drawRect(inst.barPos.x + (barWidth * i) + (st.settings.scenes.monsterytav.barsDist * i), ((r.height / 2) + (r.height * 0.2)) - (inst.barArea.y * inst.freqData[i]), barWidth, (inst.barArea.y * inst.freqData[i]) + (inst.barArea.y / 100));
         }
 
         //add the graphics to container
