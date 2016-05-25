@@ -1,3 +1,6 @@
+//the local settings copy of the popup
+var st = null;
+
 //the requests are made with google chrome
 //API to work with the page scope
 function sendAction(event) {
@@ -9,7 +12,10 @@ function sendAction(event) {
             action: event.data.action,
             data: event.data.data
         }, function(response) {
-            console.log("Response: " + response);
+            if (event.data.action === "getSettings") {
+                st = response;
+                console.log(st);
+            }
         });
     });
 }
@@ -17,6 +23,20 @@ function sendAction(event) {
 //setup the buttons to send actions
 //via events
 $(document).ready(function() {
-    $("#next-visualizer-button").click({action: "nextScene", data: null}, sendAction);
-    $("#previous-visualizer-button").click({action: "previousScene", data: null}, sendAction);
+    //get the settings
+    sendAction({
+        data: {
+            action: "getSettings",
+            data: null
+        }
+    });
+
+    $("#next-visualizer-button").click({
+        action: "nextScene",
+        data: null
+    }, sendAction);
+    $("#previous-visualizer-button").click({
+        action: "previousScene",
+        data: null
+    }, sendAction);
 });

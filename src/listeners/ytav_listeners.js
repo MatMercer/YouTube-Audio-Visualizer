@@ -10,6 +10,12 @@ window.addEventListener("message", function(event) {
         case "previousScene":
             vis.previousScene();
             break;
+        case "getSettings":
+            window.postMessage({
+                action: "sendSettings",
+                content: JSON.stringify(st)
+            }, "*");
+            break;
         default:
             break;
     }
@@ -30,5 +36,12 @@ $(document).bind("DOMNodeInserted", function(e) {
         vis.init();
         vis.render();
         setTimeout(scrollToVideo, 1000);
+
+        //updates the settings in the injector
+        //listeners
+        window.postMessage({
+            action: "getSettings",
+            content: null
+        }, "*");
     }
 });
