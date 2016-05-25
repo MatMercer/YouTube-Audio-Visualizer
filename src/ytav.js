@@ -146,7 +146,7 @@ function monsterYTAVScene(barsColor) {
         //clears the graphics
         g.clear();
 
-        if (st.settings.scenes.ocilloscope.backgroundOpacity) {
+        if (st.settings.scenes.monsterytav.backgroundOpacity) {
             drawBackground(g, r, st.settings.scenes.monsterytav.backgroundColor, st.settings.scenes.monsterytav.backgroundOpacity);
         }
 
