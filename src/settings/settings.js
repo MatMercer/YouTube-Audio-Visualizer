@@ -15,7 +15,7 @@ var defaultSettings = {
                 backgroundOpacity: 0,
                 excludeRatio: 33
             },
-            ocilloscope: {
+            oscilloscope: {
                 fftSize: 256,
                 lineColor: 0xfc3030,
                 lineWidth: 2,
