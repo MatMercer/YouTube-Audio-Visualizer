@@ -132,7 +132,7 @@ function monsterYTAVScene(barsColor) {
         //set the custom freqData
         //if the scene isn't paused
         if (!vis.paused) {
-            inst.setData(d);
+            inst.freqData = inst.getData(d);
         }
 
         //set the bars area 80% of the view width and 40%
@@ -170,39 +170,42 @@ function monsterYTAVScene(barsColor) {
         r.render(c);
     };
 
-    //used to set the custom frequency data
-    inst.setData = function(d) {
+    //used to get a custom frequency data
+    inst.getCustomFrequencyData = function(d) {
+        //the local instance of a new array object
+        freq = []
+
         //the low frequency data
-        for (i = inst.low.x, j = 0; i < inst.low.y; i++, j++) {
-            inst.freqData[j] = d[i];
+        for (i = inst.low.x; i < inst.low.y; i++) {
+            freq.push(d[i]);
         }
 
         //the medium frequency data
-        for (i = inst.mid.x, j; i < inst.mid.y; i++, j++) {
-            inst.freqData[j] = d[i];
+        for (i = inst.mid.x; i < inst.mid.y; i++) {
+            freq.push(d[i]);
         }
 
         //the high frequency data
-        for (i = inst.high.x, j; i < inst.high.y; i++, j++) {
-            inst.freqData[j] = d[i];
-
+        for (i = inst.high.x; i < inst.high.y; i++) {
             //increses the data a little
-            inst.freqData[j] *= 1.2;
+            freq.push(d[i] * 1.2);
         }
 
         //adjusts some values, incresing the difference
-        for (i = 0; i < inst.freqData.length; i++) {
-            inst.freqData[i] *= (inst.freqData[i] / 0.12) * (inst.freqData[i]);
-            inst.freqData[i] *= 0.12;
+        for (i = 0; i < freq.length; i++) {
+            freq[i] *= (freq[i] / 0.12) * (freq[i]);
+            freq[i] *= 0.12;
         }
 
         //used to remove "dead falls" on the bars
         //make the frequency data more dynamic
-        for (i = 1, j = inst.freqData.length - 1; i < inst.freqData.length; i++, j--) {
-            inst.freqData[i] += 0.57 * inst.freqData[i - 1];
-            inst.freqData[j] += 0.57 * inst.freqData[j - 1];
+        for (i = 1, j = freq.length - 1; i < freq.length; i++, j--) {
+            freq[i] += 0.57 * freq[i - 1];
+            freq[j] += 0.57 * freq[j - 1];
         }
 
+        //returns the custom frequency
+        return freq;
     };
 }
 
