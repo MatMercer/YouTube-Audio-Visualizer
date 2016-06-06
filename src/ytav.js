@@ -282,15 +282,9 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
         inst.analyser.getFloatTimeDomainData(inst.timeDataArray);
 
         //the instance of the scenes
-        bars = new barsScene();
-
-        ocillo = new oscilloscopeScene();
-
-        monster = new monsterYTAVScene();
-
-        scenes.push(bars);
-        scenes.push(ocillo);
-        scenes.push(monster);
+        scenes.push(new barsScene());
+        scenes.push(new oscilloscopeScene());
+        scenes.push(new monsterYTAVScene());
 
         //update the analyser config
         inst.updateAnalyserConfig();
@@ -321,9 +315,10 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
         for (i in inst.freqDataArray) {
             if (inst.freqDataArray[i] <= -100 || inst.freqDataArray[i] == -80 || inst.freqDataArray[i] == -50) {
                 inst.freqDataArray[i] = 0;
-                continue;
             }
-            inst.freqDataArray[i] = (inst.freqDataArray[i] + 100) / 100;
+            else {
+                inst.freqDataArray[i] = (inst.freqDataArray[i] + 100) / 100;
+            }
         }
     };
 
