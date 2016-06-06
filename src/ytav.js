@@ -378,7 +378,7 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
 function scrollToVideo() {
     $("html, body").animate({
         scrollTop: $("#content").offset().top - $("#player > canvas").offset().top
-    }, 500);
+    }, 0);
 }
 
 //used to know if the settings has been changed
