@@ -132,7 +132,7 @@ function monsterYTAVScene(barsColor) {
         //set the custom freqData
         //if the scene isn't paused
         if (!vis.paused) {
-            inst.freqData = inst.getData(d);
+            inst.freqData = inst.getCustomFrequencyData(d);
         }
 
         //set the bars area 80% of the view width and 40%
