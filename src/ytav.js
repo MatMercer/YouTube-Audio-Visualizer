@@ -59,7 +59,7 @@ function oscilloscopeScene(lineColor, lineWidth, backgroundColor, backgroundOpac
         //the animation
 
         //a constant to calculate the line width responsively
-        widthConstant = (100 / td.length);
+        widthConstant = (100 / (td.length - 1));
 
         //clears the graphics
         g.clear();
