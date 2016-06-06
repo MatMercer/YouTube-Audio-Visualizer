@@ -47,7 +47,7 @@ function barsScene() {
 
 }
 
-function oscilloscopeScene(lineColor, lineWidth, backgroundColor, backgroundOpacity) {
+function oscilloscopeScene() {
     //the instance
     var inst = this;
 
@@ -93,7 +93,7 @@ function oscilloscopeScene(lineColor, lineWidth, backgroundColor, backgroundOpac
     };
 }
 
-function monsterYTAVScene(barsColor) {
+function monsterYTAVScene() {
     //the instance
     var inst = this;
 
