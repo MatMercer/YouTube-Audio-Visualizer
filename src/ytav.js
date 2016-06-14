@@ -123,9 +123,9 @@ function monsterYTAVScene() {
             inst.freqData = inst.getCustomFrequencyData(fd);
         }
 
-        //set the bars area 80% of the view width and 40%
+        //set the bars area 90% of the view width and 45%
         //from the view heigth
-        inst.barArea.set(r.width * 0.9, r.height * 0.4);
+        inst.barArea.set(r.width * 0.9, r.height * 0.45);
 
         //used to make the bars centered
         //a 20% up
@@ -181,15 +181,20 @@ function monsterYTAVScene() {
 
         //adjusts some values, incresing the difference
         for (i = 0; i < freq.length; i++) {
-            freq[i] *= (freq[i] / 0.12) * (freq[i]);
-            freq[i] *= 0.12;
+            freq[i] *= (freq[i] / 0.15) * (freq[i]);
+            freq[i] *= 0.15;
         }
-
+        
         //used to remove "dead falls" on the bars
         //make the frequency data more dynamic
-        for (i = 1, j = freq.length - 1; i < freq.length; i++, j--) {
-            freq[i] += 0.57 * freq[i - 1];
-            freq[j] += 0.57 * freq[j - 1];
+        //a control var to store temporally the frequency
+        control = freq;
+        for(i = 1, j = freq.length - 1; i < freq.length - 1; i++, j--) {
+            freq[i] += control[i + 1] * 0.57;
+            freq[i] += control[i - 1] * 0.57;
+            if(freq[i] > 1.3) {
+                freq[i] = 1.3;
+            }
         }
 
         //returns the custom frequency
