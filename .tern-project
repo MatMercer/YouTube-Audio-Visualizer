@@ -2,5 +2,8 @@
     "libs": [
         "browser",
         "jquery"
-    ]
+    ],
+    "plugins": {
+        "chrome-extension": {}
+    }
 }

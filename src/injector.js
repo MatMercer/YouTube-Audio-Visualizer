@@ -1,10 +1,8 @@
 //all the files SHOULD be added to web_accessible_resources in manifest file
 //add all the script files to the html element
 
-//used to get the text javascript code from files and
-//add it to the script dom element
-
-function injectScripts() {
+//inject all the extension content used to work
+function injectContent() {
     $("<script>").attr({
         src: chrome.extension.getURL("/lib/pixi/bin/pixi.min.js"),
         type: "text/javascript"
@@ -36,4 +34,4 @@ function injectScripts() {
     }).appendTo("head");
 }
 
-injectScripts();
+injectContent();
