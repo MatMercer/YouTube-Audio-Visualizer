@@ -5,38 +5,35 @@
 //add it to the script dom element
 
 function injectScripts() {
-    var text = null;
-    var script = document.createElement("script");
-    $.get(chrome.extension.getURL("/lib/pixi/bin/pixi.min.js"),
-        function(data) {
-            text = "" + data;
-            script.appendChild(document.createTextNode(text));
-            $.get(chrome.extension.getURL("/lib/jquery/dist/jquery.min.js"),
-                function(data) {
-                    text = "" + data;
-                    script.appendChild(document.createTextNode(text));
-                    $.get(chrome.extension.getURL("/lib/localstorage/lockr.min.js"),
-                        function(data) {
-                            text = "" + data;
-                            script.appendChild(document.createTextNode(text));
-                            $.get(chrome.extension.getURL("/src/settings/settings.js"),
-                                function(data) {
-                                    text = "" + data;
-                                    script.appendChild(document.createTextNode(text));
-                                    $.get(chrome.extension.getURL("/src/ytav.js"),
-                                        function(data) {
-                                            text = "" + data;
-                                            script.appendChild(document.createTextNode(text));
-                                            $.get(chrome.extension.getURL("/src/listeners/ytav_listeners.js"),
-                                                function(data) {
-                                                    text = "" + data;
-                                                    script.appendChild(document.createTextNode(text));
-                                                    document.head.appendChild(script);
-                                                });
-                                        });
-                                });
-                        });
-                });
-        });
+    $("<script>").attr({
+        src: chrome.extension.getURL("/lib/pixi/bin/pixi.min.js"),
+        type: "text/javascript"
+    }).appendTo("head");
+
+    $("<script>").attr({
+        src: chrome.extension.getURL("/lib/jquery/dist/jquery.min.js"),
+        type: "text/javascript"
+    }).appendTo("head");
+
+    $("<script>").attr({
+        src: chrome.extension.getURL("/lib/localstorage/lockr.min.js"),
+        type: "text/javascript"
+    }).appendTo("head");
+
+    $("<script>").attr({
+        src: chrome.extension.getURL("/src/settings/settings.js"),
+        type: "text/javascript"
+    }).appendTo("head");
+
+    $("<script>").attr({
+        src: chrome.extension.getURL("/src/ytav.js"),
+        type: "text/javascript"
+    }).appendTo("head");
+
+    $("<script>").attr({
+        src: chrome.extension.getURL("/src/listeners/ytav_listeners.js"),
+        type: "text/javascript"
+    }).appendTo("head");
 }
+
 injectScripts();
