@@ -39,7 +39,7 @@ var defaultSettings = {
 function gettersAndSetters(o) {
     o.get = getSettingsFunc;
     o.set = setSettingsFunc;
-    for (i in o) {
+    for (var i in o) {
         if (typeof o[i] == "object") {
             gettersAndSetters(o[i]);
         }
@@ -59,7 +59,7 @@ function getSettings() {
         s = setDefaultSettings();
     }
 
-    checkSettingsUpdate(s, defaultSettings)
+    checkSettingsUpdate(s, defaultSettings);
     gettersAndSetters(s);
     return s;
 }
@@ -95,7 +95,7 @@ function saveSettings(s) {
 //a setting has changed the name
 //it will be reseted
 function checkSettingsUpdate(cs, ds) {
-    for (i in ds) {
+        for (var i in ds) {
         if(cs[i] === undefined)
             cs[i] = ds[i];
         if(typeof ds[i] === "object")

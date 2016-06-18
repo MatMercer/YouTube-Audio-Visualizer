@@ -17,6 +17,12 @@ function sendAction(event) {
 //setup the buttons to send actions
 //via events
 $(document).ready(function() {
-    $("#next-visualizer-button").click({action: "nextScene", data: null}, sendAction);
-    $("#previous-visualizer-button").click({action: "previousScene", data: null}, sendAction);
+    $("#next-visualizer-button").click({
+        action: "nextScene",
+        data: null
+    }, sendAction);
+    $("#previous-visualizer-button").click({
+        action: "previousScene",
+        data: null
+    }, sendAction);
 });

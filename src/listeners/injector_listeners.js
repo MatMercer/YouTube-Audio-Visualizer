@@ -8,5 +8,5 @@ chrome.runtime.onMessage.addListener(
             content: request.data
         }, "*");
 
-        sendResponse("Message received...");  
+        sendResponse("Message received...");
     });

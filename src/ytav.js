@@ -147,7 +147,7 @@ function monsterYTAVScene() {
         //the bar width, discouting the barDist
         barWidth = widthConstant * ((inst.barArea.x - (st.settings.scenes.monsterytav.barsDist * inst.freqData.length)) / 100);
 
-        for (i in inst.freqData) {
+        for (var i in inst.freqData) {
             g.drawRect(inst.barPos.x + (barWidth * i) + (st.settings.scenes.monsterytav.barsDist * i), ((r.height / 2) + (r.height * 0.2)) - (inst.barArea.y * inst.freqData[i]), barWidth, (inst.barArea.y * inst.freqData[i]) + (inst.barArea.y / 100));
         }
 
@@ -161,7 +161,7 @@ function monsterYTAVScene() {
     //used to get a custom frequency data
     inst.getCustomFrequencyData = function(fd) {
         //the local instance of a new array object
-        freq = []
+        freq = [];
 
         //the low frequency data
         for (i = inst.low.x; i < inst.low.y; i++) {
@@ -184,15 +184,15 @@ function monsterYTAVScene() {
             freq[i] *= (freq[i] / 0.15) * (freq[i]);
             freq[i] *= 0.15;
         }
-        
+
         //used to remove "dead falls" on the bars
         //make the frequency data more dynamic
         //a control var to store temporally the frequency
         control = freq;
-        for(i = 1, j = freq.length - 1; i < freq.length - 1; i++, j--) {
+        for (i = 1, j = freq.length - 1; i < freq.length - 1; i++, j--) {
             freq[i] += control[i + 1] * 0.57;
             freq[i] += control[i - 1] * 0.57;
-            if(freq[i] > 1.3) {
+            if (freq[i] > 1.3) {
                 freq[i] = 1.3;
             }
         }
@@ -317,11 +317,10 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
 
     //transform freqData to percentages
     inst.cleanUpFreqDataArray = function() {
-        for (i in inst.freqDataArray) {
+        for (var i in inst.freqDataArray) {
             if (inst.freqDataArray[i] <= -100 || inst.freqDataArray[i] == -80 || inst.freqDataArray[i] == -50) {
                 inst.freqDataArray[i] = 0;
-            }
-            else {
+            } else {
                 inst.freqDataArray[i] = (inst.freqDataArray[i] + 100) / 100;
             }
         }
@@ -338,7 +337,7 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
     //go to the previous scene
     inst.previousScene = function() {
         idx = st.settings.global.sceneIndex;
-        idx -= idx == 0 ? -(scenes.length - 1) : 1;
+        idx -= idx === 0 ? -(scenes.length - 1) : 1;
         st.settings.global.set("sceneIndex", idx);
         inst.updateAnalyserConfig();
     };
@@ -364,7 +363,7 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
 
     //gets an scene name based on its name
     inst.getSceneByName = function(name) {
-        for (i in scenes) {
+        for (var i in scenes) {
             if (scenes[i].name.toLowerCase() == name.toLowerCase()) {
                 return scenes[i];
             }
@@ -392,6 +391,7 @@ function refreshVisSettings(w) {
         case "smooth":
         case "fftSize":
             vis.updateAnalyserConfig();
+            break;
         default:
             break;
     }
