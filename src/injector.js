@@ -32,6 +32,10 @@ function injectContent() {
         src: chrome.extension.getURL("/src/listeners/ytav_listeners.js"),
         type: "text/javascript"
     }).appendTo("head");
+
+    $.get(chrome.extension.getURL("/src/container.html"), function(data){
+        $("#header").append($.parseHTML(data));
+    });
 }
 
 injectContent();
