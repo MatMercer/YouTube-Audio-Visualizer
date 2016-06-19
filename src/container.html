@@ -1,3 +1,4 @@
+<!-- css must be inline, if not, causes page permission errors -->
 <style type="text/css">
     #ytav-container {
         width: 100%;
@@ -22,13 +23,14 @@
     <div id="ytav-gui">
         <div id="ytav-title">
             <button id="ytav-btn-toggle-settings"></button>
+            <h1 id="ytav-title-text">Youtube Audio Visualizer</h1>
+            <h4 id="ytav-title-version" V. X></h4>
         </div>
+        <!-- dynamically changes with the current scene -->
         <div id="ytav-settings"></div>
         <div id="ytav-scene-changer">
-            <button id="ytav-btn-next">
-                <button>
-                    <button id="ytav-btn-previous"></button>
-                </button>
+            <button id="ytav-btn-previous">Previous Scene</button>
+            <button id="ytav-btn-next">Next Scene</button>
         </div>
     </div>
 </div>
