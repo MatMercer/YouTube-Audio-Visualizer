@@ -2,8 +2,33 @@
     #ytav-container {
         width: 100%;
     }
+    #ytav-renderer {
+        display: inline-block;
+    }
+    #ytav-gui {
+        display: inline-block;
+        padding: 15px 15px 15px;
+    }
+    #ytav-text-title {
+        line-height: 1em;
+        color: #111111;
+        font-size: 2.2em;
+    }
 </style>
 
 <div id="ytav-container">
-
+    <!-- canvas will be injected here -->
+    <div id="ytav-renderer"></div>
+    <div id="ytav-gui">
+        <div id="ytav-title">
+            <button id="ytav-btn-toggle-settings"></button>
+        </div>
+        <div id="ytav-settings"></div>
+        <div id="ytav-scene-changer">
+            <button id="ytav-btn-next">
+                <button>
+                    <button id="ytav-btn-previous"></button>
+                </button>
+        </div>
+    </div>
 </div>

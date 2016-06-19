@@ -34,7 +34,7 @@ function injectContent() {
     }).appendTo("head");
 
     $.get(chrome.extension.getURL("/src/container.html"), function(data){
-        $("#header").append($.parseHTML(data));
+        $("#player").prepend($.parseHTML(data));
     });
 }
 

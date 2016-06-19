@@ -24,7 +24,7 @@ $(document).bind("DOMNodeInserted", function(e) {
     if ($(e.target).get(0) == $("#movie_player > div.ytp-chrome-bottom > div.ytp-chrome-controls > div.ytp-left-controls > div > span.ytp-time-current").get(0)) {
         //unbind to prevent unused processing
         $(document).unbind("DOMNodeInserted");
-        vis = new audioVisualizer(640, 360, "#ytav-container", "video", "#player-api");
+        vis = new audioVisualizer(640, 360, "#ytav-renderer", "video", "#player-api");
         vis.init();
         vis.render();
         setTimeout(scrollToVideo, 1000);
