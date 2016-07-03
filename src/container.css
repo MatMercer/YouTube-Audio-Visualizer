@@ -1,31 +1,48 @@
 .ytav-renderer {
     float: left;
+    background-color: blue;
 }
 
 .ytav-gui {
-    vertical-align: top;
     overflow: hidden;
     height: 100%;
+    background-color: green;
 }
 
 .ytav-title {
-    vertical-align: top;
     height: 10%;
+    background-color: yellow;
 }
 
 .ytav-title-text {
-    text-align: center;
     color: rgb(55, 55, 55);
+    text-align: center;
+}
+
+.ytav-title-version {
+    color: rgb(255, 69, 0);
+    text-align: center;
+    padding: 0 0 50% 30%;
+}
+
+.ytav-title-version-value {
+    color: rgb(55, 55, 55);
+    transition: .5s;
+}
+
+.ytav-title-version-value:hover {
+    color: rgb(255, 69, 0);
+    cursor: pointer;
 }
 
 .ytav-settings {
-    vertical-align: middle;
-    height: 80%;
+    height: 85%;
+    background-color: red;
 }
 
 .ytav-scene-changer {
-    vertical-align: bottom;
-    height: 10%;
+    height: 5%;
+    background-color: purple;
 }
 
 .ytav-btn-previous {
