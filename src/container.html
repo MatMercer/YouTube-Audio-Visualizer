@@ -1,36 +1,17 @@
-<!-- css must be inline, if not, causes page permission errors -->
-<style type="text/css">
-    #ytav-container {
-        width: 100%;
-    }
-    #ytav-renderer {
-        display: inline-block;
-    }
-    #ytav-gui {
-        display: inline-block;
-        padding: 15px 15px 15px;
-    }
-    #ytav-text-title {
-        line-height: 1em;
-        color: #111111;
-        font-size: 2.2em;
-    }
-</style>
-
-<div id="ytav-container">
+<div class="ytav-container player-height">
     <!-- canvas will be injected here -->
-    <div id="ytav-renderer"></div>
-    <div id="ytav-gui">
-        <div id="ytav-title">
-            <button id="ytav-btn-toggle-settings"></button>
-            <h1 id="ytav-title-text">Youtube Audio Visualizer</h1>
-            <h4 id="ytav-title-version" V. X></h4>
+    <div class="ytav-renderer "></div>
+    <div class="ytav-gui">
+        <div class="ytav-title">
+            <button class="ytav-btn-toggle-settings"></button>
+            <h1 class="ytav-title-text">Youtube Audio Visualizer</h1>
+            <h4 class="ytav-title-version" V. X></h4>
         </div>
         <!-- dynamically changes with the current scene -->
-        <div id="ytav-settings"></div>
-        <div id="ytav-scene-changer">
-            <button id="ytav-btn-previous">Previous Scene</button>
-            <button id="ytav-btn-next">Next Scene</button>
+        <div class="ytav-settings"></div>
+        <div class="ytav-scene-changer">
+            <button class="ytav-btn-previous yt-uix-button yt-uix-button-default yt-uix-button-size-default">Previous Scene</button>
+            <button class="ytav-btn-next yt-uix-button yt-uix-button-default yt-uix-button-size-default">Next Scene</button>
         </div>
     </div>
 </div>

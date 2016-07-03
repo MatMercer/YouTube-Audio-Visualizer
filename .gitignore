@@ -55,3 +55,6 @@ flycheck_*.el
 //binary files
 *.zip
 *.mp4
+
+//tern port
+.tern-port

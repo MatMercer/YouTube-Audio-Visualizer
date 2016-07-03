@@ -1,0 +1,41 @@
+.ytav-renderer {
+    float: left;
+}
+
+.ytav-gui {
+    vertical-align: top;
+    overflow: hidden;
+    height: 100%;
+}
+
+.ytav-title {
+    vertical-align: top;
+    height: 10%;
+}
+
+.ytav-title-text {
+    text-align: center;
+    color: rgb(55, 55, 55);
+}
+
+.ytav-settings {
+    vertical-align: middle;
+    height: 80%;
+}
+
+.ytav-scene-changer {
+    vertical-align: bottom;
+    height: 10%;
+}
+
+.ytav-btn-previous {
+    vertical-align: bottom;
+    float: left;
+    margin: 5px;
+}
+
+.ytav-btn-next {
+    vertical-align: bottom;
+    float: right;
+    margin: 5px;
+}

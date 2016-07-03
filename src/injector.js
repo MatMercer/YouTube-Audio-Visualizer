@@ -36,6 +36,12 @@ function injectContent() {
     $.get(chrome.extension.getURL("/src/container.html"), function(data){
         $("#player").prepend($.parseHTML(data));
     });
+
+    containerStyle = $("<link>");
+    containerStyle.attr("rel", "stylesheet");
+    containerStyle.attr("type", "text/css");
+    containerStyle.attr("href", chrome.extension.getURL("/src/container.css"));
+    $("head").append(containerStyle);
 }
 
 injectContent();
