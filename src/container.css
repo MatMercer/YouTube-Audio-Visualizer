@@ -1,58 +1,104 @@
 .ytav-renderer {
     float: left;
-    background-color: blue;
+    /*background-color: blue;*/
 }
-
 .ytav-gui {
+    position: relative;
     overflow: hidden;
     height: 100%;
-    background-color: green;
+    /*background-color: green;*/
 }
-
 .ytav-title {
-    height: 10%;
-    background-color: yellow;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    max-height: 15%;
+    /*background-color: yellow;*/
 }
-
 .ytav-title-text {
     color: rgb(55, 55, 55);
     text-align: center;
 }
-
 .ytav-title-version {
     color: rgb(255, 69, 0);
     text-align: center;
     padding: 0 0 50% 30%;
 }
-
 .ytav-title-version-value {
     color: rgb(55, 55, 55);
     transition: .5s;
 }
-
 .ytav-title-version-value:hover {
     color: rgb(255, 69, 0);
     cursor: pointer;
 }
-
+.ytav-title-toggle-settings {
+    height: 100%;
+    width: 1em;
+    float: left;
+    position: relative;
+}
 .ytav-settings {
-    height: 85%;
-    background-color: red;
+    height: 100%;
+    /*background-color: red;*/
 }
-
 .ytav-scene-changer {
-    height: 5%;
-    background-color: purple;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    min-height: 10%;
+    /*background-color: purple;*/
 }
-
 .ytav-btn-previous {
     vertical-align: bottom;
     float: left;
     margin: 5px;
 }
-
 .ytav-btn-next {
     vertical-align: bottom;
     float: right;
     margin: 5px;
+}
+/* Modified version from http://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_switch */
+
+.switch {
+    position: relative;
+    display: inline-block;
+    top: 15%;
+    width: 50px;
+    height: 24px;
+}
+.switch input {
+    display: none;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 24px;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+input:checked + .slider {
+    background-color: #2196F3;
+}
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+input:checked + .slider:before {
+    transform: translateX(26px);
 }
