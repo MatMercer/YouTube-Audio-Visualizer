@@ -42,6 +42,11 @@ function injectContent() {
     containerStyle.attr("type", "text/css");
     containerStyle.attr("href", chrome.extension.getURL("/src/container.css"));
     $("head").append(containerStyle);
+
+    $("<script>").attr({
+        src: chrome.extension.getURL("/src/container.js"),
+        type: "text/javascript"
+    }).appendTo("head");
 }
 
 injectContent();
