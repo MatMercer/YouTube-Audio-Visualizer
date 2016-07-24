@@ -109,8 +109,8 @@ function monsterYTAVScene() {
     //the frequency index used to set the
     //custom freqData
     inst.low = new PIXI.Point(5, 40);
-    inst.mid = new PIXI.Point(50, 85);
-    inst.high = new PIXI.Point(2030, 2050);
+    inst.mid = new PIXI.Point(50, 100);
+    inst.high = new PIXI.Point(2000, 2010);
 
     //custom freqdata
     inst.freqData = [];
@@ -189,7 +189,7 @@ function monsterYTAVScene() {
         //make the frequency data more dynamic
         //a control var to store temporally the frequency
         control = freq;
-        for (i = 1, j = freq.length - 1; i < freq.length - 1; i++, j--) {
+        for (i = 1, j = freq.length - 1; i < freq.length; i++, j--) {
             freq[i] += control[i + 1] * 0.57;
             freq[i] += control[i - 1] * 0.57;
             if (freq[i] > 1.3) {
