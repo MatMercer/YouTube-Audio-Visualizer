@@ -33,18 +33,18 @@ function injectContent() {
         type: "text/javascript"
     }).appendTo("head");
 
-    $.get(chrome.extension.getURL("/src/container.html"), function(data){
+    $.get(chrome.extension.getURL("/src/container/container.html"), function(data){
         $("#player").prepend($.parseHTML(data));
     });
 
     containerStyle = $("<link>");
     containerStyle.attr("rel", "stylesheet");
     containerStyle.attr("type", "text/css");
-    containerStyle.attr("href", chrome.extension.getURL("/src/container.css"));
+    containerStyle.attr("href", chrome.extension.getURL("/src/container/container.css"));
     $("head").append(containerStyle);
 
     $("<script>").attr({
-        src: chrome.extension.getURL("/src/container.js"),
+        src: chrome.extension.getURL("/src/container/container.js"),
         type: "text/javascript"
     }).appendTo("head");
 }
