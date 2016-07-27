@@ -36,6 +36,10 @@ function injectContent() {
     $.get(chrome.extension.getURL("/src/container/container.html"), function(data){
         $("#player").prepend($.parseHTML(data));
     });
+	
+	$.get(chrome.extension.getURL("/src/container/toggle_button.html"), function(data){
+        $("#watch7-sidebar-modules > div:nth-child(1) > div").append($.parseHTML(data));
+    });
 
     containerStyle = $("<link>");
     containerStyle.attr("rel", "stylesheet");
