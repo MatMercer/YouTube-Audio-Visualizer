@@ -4,17 +4,28 @@
 //inject all the extension content used to work
 function injectContent() {
     $("<script>").attr({
-        src: chrome.extension.getURL("/lib/pixi/bin/pixi.min.js"),
+        src: chrome.extension.getURL("/lib/pixi.min.js"),
         type: "text/javascript"
     }).appendTo("head");
 
     $("<script>").attr({
-        src: chrome.extension.getURL("/lib/jquery/dist/jquery.min.js"),
+        src: chrome.extension.getURL("/lib/jquery.min.js"),
+        type: "text/javascript"
+    }).appendTo("head");
+
+    containerStyle = $("<link>");
+    containerStyle.attr("rel", "stylesheet");
+    containerStyle.attr("type", "text/css");
+    containerStyle.attr("href", chrome.extension.getURL("/lib/jquery-ui.css"));
+    $("head").append(containerStyle);
+
+    $("<script>").attr({
+        src: chrome.extension.getURL("/lib/jquery-ui.min.js"),
         type: "text/javascript"
     }).appendTo("head");
 
     $("<script>").attr({
-        src: chrome.extension.getURL("/lib/localstorage/lockr.min.js"),
+        src: chrome.extension.getURL("/lib/lockr.min.js"),
         type: "text/javascript"
     }).appendTo("head");
 

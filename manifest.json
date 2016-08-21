@@ -9,7 +9,7 @@
         "48": "ytav_icon_48.png",
         "128": "ytav_icon_128.png"
     },
-    "web_accessible_resources": ["/lib/pixi/bin/pixi.min.js", "/lib/jquery/dist/jquery.min.js", "/lib/localstorage/lockr.min.js", "/src/settings/settings.js", "/src/ytav.js", "/src/listeners/ytav_listeners.js", "/src/container/container.html", "/src/container/container.css", "/src/container/container.js", "/src/container/toggle_button.html"],
+    "web_accessible_resources": ["/lib/pixi.min.js", "/lib/jquery-ui.css", "/lib/jquery-ui.min.js", "/lib/jquery.min.js", "/lib/lockr.min.js", "/src/settings/settings.js", "/src/ytav.js", "/src/listeners/ytav_listeners.js", "/src/container/container.html", "/src/container/container.css", "/src/container/container.js", "/src/container/toggle_button.html"],
     "options_page": "/src/config/config.html",
     "content_scripts": [{
         "runs_at": "document_end",
@@ -17,7 +17,7 @@
             "https://www.youtube.com/*",
             "https://youtu.be/*"
         ],
-        "js": ["/lib/jquery/dist/jquery.min.js", "/src/injector.js", "/src/listeners/injector_listeners.js"]
+        "js": ["/lib/jquery.min.js", "/src/injector.js", "/src/listeners/injector_listeners.js"]
     }],
     "browser_action": {
         "default_title": "YouTube Audio Visualizer",
