@@ -1,67 +1,59 @@
+//injects javascripts files in the page using script tags
+function injectJsFiles(paths) {
+    for (i = 0; i < paths.length; i++) {
+        path = chrome.extension.getURL(paths[i]);
+
+        $("<script>").attr({
+            src: path,
+            type: "text/javascript"
+        }).appendTo("head");
+    }
+}
+
+//injects css files in the page using link tags
+function injectCSSFiles(paths) {
+    for (i = 0; i < paths.length; i++) {
+        path = chrome.extension.getURL(paths[i]);
+
+        $("<link>").attr({
+            rel: "stylesheet",
+            type: "text/css",
+            href: path
+        }).appendTo("head");
+    }
+}
+
+//injects an html file in the page parsing the html data
+function injectHtmlFile(path, where) {
+    $.get(chrome.extension.getURL(path), function(data) {
+        $(where).prepend($.parseHTML(data));
+    });
+}
+
 //all the files SHOULD be added to web_accessible_resources in manifest file
 //add all the script files to the html element
 
 //inject all the extension content used to work
 function injectContent() {
-    $("<script>").attr({
-        src: chrome.extension.getURL("/lib/pixi.min.js"),
-        type: "text/javascript"
-    }).appendTo("head");
+    scripts = [
+        "/lib/pixi.min.js",
+        "/lib/jquery.min.js",
+        "/lib/jquery-ui.min.js",
+        "/lib/lockr.min.js",
+        "/src/settings/settings.js",
+        "/src/ytav.js",
+        "/src/listeners/ytav_listeners.js",
+        "/src/container/container.js"
+    ];
 
-    $("<script>").attr({
-        src: chrome.extension.getURL("/lib/jquery.min.js"),
-        type: "text/javascript"
-    }).appendTo("head");
+    stylesheets = [
+        "/lib/jquery-ui.css",
+        "./src/container/container.css"
+    ];
 
-    containerStyle = $("<link>");
-    containerStyle.attr("rel", "stylesheet");
-    containerStyle.attr("type", "text/css");
-    containerStyle.attr("href", chrome.extension.getURL("/lib/jquery-ui.css"));
-    $("head").append(containerStyle);
-
-    $("<script>").attr({
-        src: chrome.extension.getURL("/lib/jquery-ui.min.js"),
-        type: "text/javascript"
-    }).appendTo("head");
-
-    $("<script>").attr({
-        src: chrome.extension.getURL("/lib/lockr.min.js"),
-        type: "text/javascript"
-    }).appendTo("head");
-
-    $("<script>").attr({
-        src: chrome.extension.getURL("/src/settings/settings.js"),
-        type: "text/javascript"
-    }).appendTo("head");
-
-    $("<script>").attr({
-        src: chrome.extension.getURL("/src/ytav.js"),
-        type: "text/javascript"
-    }).appendTo("head");
-
-    $("<script>").attr({
-        src: chrome.extension.getURL("/src/listeners/ytav_listeners.js"),
-        type: "text/javascript"
-    }).appendTo("head");
-
-    $.get(chrome.extension.getURL("/src/container/container.html"), function(data){
-        $("#player").prepend($.parseHTML(data));
-    });
-	
-	$.get(chrome.extension.getURL("/src/container/toggle_button.html"), function(data){
-        $("#watch7-sidebar-modules > div:nth-child(1) > div").append($.parseHTML(data));
-    });
-
-    containerStyle = $("<link>");
-    containerStyle.attr("rel", "stylesheet");
-    containerStyle.attr("type", "text/css");
-    containerStyle.attr("href", chrome.extension.getURL("/src/container/container.css"));
-    $("head").append(containerStyle);
-
-    $("<script>").attr({
-        src: chrome.extension.getURL("/src/container/container.js"),
-        type: "text/javascript"
-    }).appendTo("head");
+    injectJsFiles(scripts);
+    injectCSSFiles(stylesheets);
+    injectHtmlFile("/src/container/container.html", "#player");
 }
 
 injectContent();
