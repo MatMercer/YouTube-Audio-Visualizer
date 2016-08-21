@@ -51,9 +51,9 @@ function injectContent() {
         "./src/container/container.css"
     ];
 
+    injectHtmlFile("/src/container/container.html", "#page-container");
     injectJsFiles(scripts);
     injectCSSFiles(stylesheets);
-    injectHtmlFile("/src/container/container.html", "#player");
 }
 
 injectContent();

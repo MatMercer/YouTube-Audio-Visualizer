@@ -4,6 +4,7 @@
         "jquery"
     ],
     "plugins": {
-        "chrome-extension": {}
+        "chrome-extension": {},
+        "jquery-ui": {}
     }
 }
