@@ -258,6 +258,9 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
         //attach the renderer to the DOM element
         inst.$container.prepend(inst.$view);
 
+        //make the view resizable
+        inst.$view.resizable();
+
         //generate the PIXI graphics for draw
         inst.g = new PIXI.Graphics();
 

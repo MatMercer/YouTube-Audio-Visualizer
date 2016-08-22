@@ -1,5 +1,5 @@
 $(".ytav-container").ready(function() {
     x = $(".ytav-container");
-    x.dialog();
+    x.draggable();
     console.log(st);
 });
