@@ -239,7 +239,7 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
     inst.init = function() {
         //the renderer
         inst.renderer = new PIXI.autoDetectRenderer(inst.width, inst.height, {
-            transparent: true
+            transparent: true,
         });
 
         //the scene
@@ -376,6 +376,7 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
 
     //renders the current scene
     inst.renderScene = function() {
+        inst.renderer.resize(vis.$view.width(), vis.$view.height())
         scenes[st.settings.global.sceneIndex].render(inst.container, inst.g, inst.renderer, inst.freqDataArray, inst.timeDataArray);
     };
 
