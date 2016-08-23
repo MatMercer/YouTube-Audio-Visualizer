@@ -1,4 +1,4 @@
 .ytav-container {
-    position: fixed;
-    z-index: 999
+    position: absolute;
+    z-index: 999;
 }
