@@ -259,7 +259,9 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
         inst.$container.prepend(inst.$view);
 
         //make the view resizable
-        inst.$view.resizable();
+        inst.$view.resizable({
+            alsoResize: $(".ytav-container")
+        });
 
         //generate the PIXI graphics for draw
         inst.g = new PIXI.Graphics();
@@ -376,7 +378,7 @@ function audioVisualizer(width, height, containerSelector, sourceSelector, playe
 
     //renders the current scene
     inst.renderScene = function() {
-        inst.renderer.resize(vis.$view.width(), vis.$view.height())
+        inst.renderer.resize(vis.$view.width(), vis.$view.height());
         scenes[st.settings.global.sceneIndex].render(inst.container, inst.g, inst.renderer, inst.freqDataArray, inst.timeDataArray);
     };
 
