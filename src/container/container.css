@@ -3,4 +3,11 @@
     z-index: 999;
     min-height: 48px;
     min-width: 48px;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0);
+    transition: background-color .25s ease-in-out;
+}
+.ytav-container:hover {
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.5);
 }
